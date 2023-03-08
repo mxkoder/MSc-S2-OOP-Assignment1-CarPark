@@ -1,25 +1,39 @@
-public class MainCarPark {
+package Models;
 
-//------pseudo code from Brief------------------------------
-//     public class source {
-//         public static void main(String[] args) {
-//             cCarPark NCP = new cCarPark();
-//             for (int i = 0; i < 10; i++) {
-//                 NCP.update();
-//                 System.out.println(i + ": polling carpark components and reacting to state");
-//                 try {
-//                     System.in.read();
-//                 }
-//                 catch (Exception e) {
-//                 }
-//             }
-//         }
-//     }
-//
-//    //cCarPark.java
-//    public class cCarPark {
-//        public void update() {
-//            //Place your carpark update logic here.
+public class CarPark implements PremiseCapacity {
+
+    private Integer capacity;
+    private Integer spacesAvailable;
+
+    public CarPark(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public CarPark(Integer capacity, Integer spacesAvailable) {
+        this.capacity = capacity;
+        this.spacesAvailable = spacesAvailable;
+    }
+
+    @Override
+    public void incrementSpacesAvailable() {
+        this.spacesAvailable += 1;
+    };
+
+    @Override
+    public void decrementSpacesAvailable() {
+        this.spacesAvailable -= 1;
+    };
+
+    @Override
+    public int getSpacesAvailable() {
+        return this.spacesAvailable;
+    };
+
+    // TODO add update method
+    @Override
+    public void update() {
+
+        //Place your carpark update logic here.
 //            //The pseudo code illustrates some of the actions required
 //            // in conjunction with other classes and will need further refinement.
 //            //1.  poll car park components (sensor/etc).
@@ -42,9 +56,13 @@ public class MainCarPark {
 //            //18. endif
 //            //************************************************
 //            //...and so on
-//        }
-//    }
-//-------------------END OF BRIEF----------------------------------------------------
+    };
 
+    public Integer getCapacity() {
+        return capacity;
+    }
 
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
 }
