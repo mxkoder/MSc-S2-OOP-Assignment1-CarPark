@@ -10,19 +10,19 @@ public class EntryBarrier extends Barrier {
     }
 
     @Override
-    void raise() {
+    public void raise() {
         this.barrierStatus = 1;
         System.out.println("The barrier is " + barrierOptions[barrierStatus]);
     }
 
     @Override
-    void lower() {
+    public void lower() {
         this.barrierStatus = 0;
         System.out.println("The barrier is " + barrierOptions[barrierStatus]);
     }
 
     @Override
-    boolean barrierIsRaised() {
+    public boolean barrierIsRaised() {
         System.out.println("The barrier is " + barrierOptions[barrierStatus]);
 
         if(barrierStatus == 1) {

@@ -1,5 +1,20 @@
+import Models.IDReaderBarcode;
+import Models.IDReaderRegistration;
+
 public class MainCarParkDemo {
     public static void main(String[] args) {
+
+//        IDReaderBarcode barcodeReader = new IDReaderBarcode();
+//
+//        barcodeReader.readID();
+
+        // TODO - test reg plate ID reader
+        IDReaderRegistration regReader = new IDReaderRegistration();
+
+        regReader.readID();
+
+        System.out.println("reg plate recorded is: " + regReader.getID());
+
 
     }
 
