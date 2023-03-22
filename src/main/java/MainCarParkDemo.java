@@ -47,6 +47,13 @@ public class MainCarParkDemo {
 //            //...and so on
 //        }
 //    }
+
+
+    // -----guidance
+    // lambdas
+    // ternary operator
+    // file handling
+    // generics
 //-------------------END OF BRIEF----------------------------------------------------
 
 
