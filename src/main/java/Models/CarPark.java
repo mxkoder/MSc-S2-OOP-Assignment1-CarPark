@@ -1,6 +1,6 @@
 package Models;
 
-public class CarPark implements PremiseCapacity {
+public class CarPark implements Premises {
 
     private Integer capacity;
     private Integer spacesAvailable;
@@ -16,13 +16,23 @@ public class CarPark implements PremiseCapacity {
 
     @Override
     public void incrementSpacesAvailable() {
-        this.spacesAvailable += 1;
-    };
+        if (spacesAvailable < capacity) {
+            this.spacesAvailable += 1;
+        }
+        else {
+            System.out.println("The car park is empty and the maximum number of spaces is already available");
+        }
+    }
 
     @Override
     public void decrementSpacesAvailable() {
-        this.spacesAvailable -= 1;
-    };
+        if ( spacesAvailable >= 1 ) {
+            this.spacesAvailable -= 1;
+        }
+        else {
+            System.out.println("The car park is already full.");
+        }
+    }
 
     @Override
     public int getSpacesAvailable() {
@@ -32,6 +42,9 @@ public class CarPark implements PremiseCapacity {
     // TODO add update method
     @Override
     public void update() {
+
+        //TODO - in update method, check only increment if barrier is raised
+
 
         //Place your carpark update logic here.
 //            //The pseudo code illustrates some of the actions required

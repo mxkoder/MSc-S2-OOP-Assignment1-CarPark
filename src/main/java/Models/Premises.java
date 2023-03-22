@@ -1,6 +1,6 @@
 package Models;
 
-interface PremiseCapacity {
+interface Premises {
 
     void incrementSpacesAvailable();
     void decrementSpacesAvailable();
