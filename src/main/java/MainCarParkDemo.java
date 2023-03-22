@@ -54,6 +54,8 @@ public class MainCarParkDemo {
     // ternary operator
     // file handling
     // generics
+    // ternary operator??
+    // lambdas??
 
     //----file handling
     // need logging
