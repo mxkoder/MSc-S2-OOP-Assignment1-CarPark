@@ -1,3 +1,4 @@
+import DataStorage.Cars;
 import Models.IDReaderBarcode;
 import Models.IDReaderRegistration;
 
@@ -8,13 +9,33 @@ public class MainCarParkDemo {
 //
 //        barcodeReader.readID();
 
-        // TODO - test reg plate ID reader
-        IDReaderRegistration regReader = new IDReaderRegistration();
+//        //----------------reg reader----------
+//        // TODO - test reg plate ID reader
+//        IDReaderRegistration regReader = new IDReaderRegistration();
+//
+//        regReader.readID();
+//
+//        System.out.println("reg plate recorded is: " + regReader.getID());
 
-        regReader.readID();
+        //------------cars list----------------------------------
+        Cars cars = new Cars();
 
-        System.out.println("reg plate recorded is: " + regReader.getID());
+        cars.add("768886", "thy7hj");
+        cars.add("7654886", "tyuy7hj");
+        cars.add("76521246", "tyurety");
 
+        cars.printAllVehicles();
+
+        System.out.println("search for barcode, present: " + cars.checkVehiclePresentByBarcode("768886"));
+        System.out.println("search for barcode,  not present: " + cars.checkVehiclePresentByBarcode("778687686868886"));
+
+        System.out.println("search for reg, present: " + cars.checkVehiclePresentByReg("thy7hj"));
+        System.out.println("search for reg, not present: " + cars.checkVehiclePresentByReg("thy7gyyjbhj"));
+
+        cars.deleteAllVehicles();
+
+        System.out.println("vehicle list is now: " );
+        cars.printAllVehicles();
 
     }
 
