@@ -1,6 +1,6 @@
 package Models;
 
-public class EntrySensor extends Sensor {
+public class CarParkSensor extends Sensor {
     private boolean carIsPresent;
     @Override
     public void setSensor(boolean carIsPresent) {
@@ -11,4 +11,6 @@ public class EntrySensor extends Sensor {
     public boolean getCarIsPresent() {
         return carIsPresent;
     }
+
+    //TODO update()?? what would it update?
 }

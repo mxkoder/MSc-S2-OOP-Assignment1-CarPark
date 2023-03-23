@@ -16,6 +16,7 @@ public class IDReaderBarcode extends IDReader {
         this.barcodeID = barcodeID;
     }
 
+    //TODO - add java doc comment to explain fixed type of barcode input
     @Override
     public String readID() {
         String inputBarcode;
