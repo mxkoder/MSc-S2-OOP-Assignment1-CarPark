@@ -1,6 +1,5 @@
+import FileHandling.CarLogFile;
 import DataStorage.Cars;
-import Models.IDReaderBarcode;
-import Models.IDReaderRegistration;
 
 public class MainCarParkDemo {
     public static void main(String[] args) {
@@ -17,25 +16,60 @@ public class MainCarParkDemo {
 //
 //        System.out.println("reg plate recorded is: " + regReader.getID());
 
+        //--------------- log file
+
+        CarLogFile carLog1 = new CarLogFile("carLog1.csv");
+        carLog1.createLogFile();
+
         //------------cars list----------------------------------
         Cars cars = new Cars();
 
         cars.add("768886", "thy7hj");
+        carLog1.addRecord("768886", "thy7hj");
+
+        cars.add("123", "abc");
+        carLog1.addRecord("123", "abc");
+
         cars.add("7654886", "tyuy7hj");
+        carLog1.addRecord("7654886", "tyuy7hj");
+
+        cars.add("7872030886", "tyuy7abcggehj");
+        carLog1.addRecord("7872030886", "tyuy7abcggehj");
+
         cars.add("76521246", "tyurety");
+        carLog1.addRecord("76521246", "tyurety");
 
         cars.printAllVehicles();
 
-        System.out.println("search for barcode, present: " + cars.checkVehiclePresentByBarcode("768886"));
-        System.out.println("search for barcode,  not present: " + cars.checkVehiclePresentByBarcode("778687686868886"));
+        cars.remove("123", "abc");
+        carLog1.removeRecord("123", "abc");
 
-        System.out.println("search for reg, present: " + cars.checkVehiclePresentByReg("thy7hj"));
-        System.out.println("search for reg, not present: " + cars.checkVehiclePresentByReg("thy7gyyjbhj"));
-
-        cars.deleteAllVehicles();
-
-        System.out.println("vehicle list is now: " );
         cars.printAllVehicles();
+//
+//        System.out.println("search for barcode, present: " + cars.checkVehiclePresentByBarcode("768886"));
+//        System.out.println("search for barcode,  not present: " + cars.checkVehiclePresentByBarcode("778687686868886"));
+//
+//        System.out.println("search for reg, present: " + cars.checkVehiclePresentByReg("thy7hj"));
+//        System.out.println("search for reg, not present: " + cars.checkVehiclePresentByReg("thy7gyyjbhj"));
+//
+//        cars.deleteAllVehicles();
+//
+//        System.out.println("vehicle list is now: " );
+//        cars.printAllVehicles();
+
+        //--------------check log file
+
+        carLog1.printFileToConsole();
+
+        Cars restoredCars = new Cars();
+
+
+        carLog1.createCarHashFromFile(restoredCars);
+
+
+        //------------comparison check of restored records and previous records-------------
+        cars.printAllVehicles();
+        restoredCars.printAllVehicles();
 
     }
 

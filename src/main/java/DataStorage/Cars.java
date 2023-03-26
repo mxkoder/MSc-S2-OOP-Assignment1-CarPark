@@ -24,9 +24,9 @@ public class Cars implements Vehicles {
 
     @Override
     public void remove(String vehicleBarcode, String vehicleReg) {
-        if (checkVehiclePresentByBarcode(vehicleBarcode) && checkVehiclePresentByBarcode(vehicleReg)) {
+        if (checkVehiclePresentByBarcode(vehicleBarcode) && checkVehiclePresentByReg(vehicleReg)) {
             cars.remove(vehicleBarcode);
-            System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been left the car park.");
+            System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has left the car park.");
         }
         else {
             System.out.println("Invalid vehicle details provided. We do not have a record of this vehicle in the car park.");
@@ -74,6 +74,11 @@ public class Cars implements Vehicles {
             }
         }
 
+    }
+
+    @Override
+    public Integer numberOfRecords() {
+        return cars.size();
     }
 
     //TODO - methods to link in w file handling?? or add to existing methods to add to log??

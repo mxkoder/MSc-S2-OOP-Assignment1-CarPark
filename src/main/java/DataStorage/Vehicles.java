@@ -13,4 +13,6 @@ interface Vehicles {
     void printAllVehicles ();
 
     boolean deleteAllVehicles ();
+
+    Integer numberOfRecords ();
 }
