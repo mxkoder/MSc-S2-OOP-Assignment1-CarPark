@@ -1,5 +1,6 @@
 package DataStorage;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class Cars implements Vehicles {
     //TODO - or can set it up to methods throw exception, eg if car already present and trying to add
     @Override
     public void add(String vehicleBarcode, String vehicleReg) {
-        if (!checkVehiclePresentByBarcode(vehicleBarcode) && !checkVehiclePresentByBarcode(vehicleReg)) {
+        if (!vehicleIsFoundByBarcode(vehicleBarcode) && !vehicleIsFoundByReg(vehicleReg)) {
             cars.put(vehicleBarcode, vehicleReg);
             System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been added.");
         }
@@ -24,8 +25,8 @@ public class Cars implements Vehicles {
 
     @Override
     public void remove(String vehicleBarcode, String vehicleReg) {
-        if (checkVehiclePresentByBarcode(vehicleBarcode) && checkVehiclePresentByReg(vehicleReg)) {
-            cars.remove(vehicleBarcode);
+        if (vehicleIsFoundByBarcode(vehicleBarcode) && vehicleIsFoundByReg(vehicleReg)) {
+            cars.remove(vehicleBarcode, vehicleReg);
             System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been removed.");
         }
         else {
@@ -34,15 +35,26 @@ public class Cars implements Vehicles {
 
     }
 
-    //TODO - change these two methods so they return barcode from reg and visa versa
     @Override
-    public boolean checkVehiclePresentByBarcode(String vehicleBarcode) {
-        return cars.containsKey(vehicleBarcode);
+    public String getRegistrationByBarcode(String vehicleBarcode) {
+        return cars.get(vehicleBarcode);
     }
 
+    //TODO add java doc, explain value will be unique because of encapsulation and restiction in add method
     @Override
-    public boolean checkVehiclePresentByReg(String vehicleReg) {
-        return cars.containsValue(vehicleReg);
+    public String getBarcodeFromVehicleReg(String vehicleReg) {
+
+        Enumeration e = cars.keys();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            String value = cars.get(key);
+
+            if(value.equals(vehicleReg)) {
+                return key;
+            }
+        }
+
+        return "Vehicle registration not found";
     }
 
     @Override
@@ -81,6 +93,15 @@ public class Cars implements Vehicles {
     public Integer numberOfRecords() {
         return cars.size();
     }
+
+    public boolean vehicleIsFoundByBarcode(String vehicleBarcode) {
+        return cars.containsKey(vehicleBarcode);
+    }
+
+    public boolean vehicleIsFoundByReg(String vehicleReg) {
+        return cars.containsValue(vehicleReg);
+    }
+
 
     //TODO - methods to link in w file handling?? or add to existing methods to add to log??
 }

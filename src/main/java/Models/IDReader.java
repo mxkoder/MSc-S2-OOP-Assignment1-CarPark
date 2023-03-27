@@ -1,7 +1,11 @@
 package Models;
 
 abstract class IDReader {
-    abstract String readID ();
+    abstract void readID ();
 
     abstract String getID ();
+
+    abstract void setID (String ID);
+
+    abstract void resetToDefault();
 }

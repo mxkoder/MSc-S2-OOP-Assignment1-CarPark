@@ -15,23 +15,44 @@ public class IDReaderRegistration extends IDReader {
      * @return
      */
     @Override
-    public String readID() {
-        String inputRegNumber = enterValueForStringWithPrompt("Please enter a valid UK car registration number: ");
-        String formatterRegNumber = capitalizeStringAndRemoveWhitespace(inputRegNumber);
+    public void readID() {
+        String inputRegNumber = "";
 
-        if(formatterRegNumber.matches("[A-Z]{2}[0-9]{2}[A-Z]{3}$")) {
-            this.regNumber = formatterRegNumber;
-            System.out.println("The car registration number " + regNumber + " has been recorded by the registration number reader.");
-            return regNumber;
-        }
-        else {
-            System.out.println("Invalid registration number. Please enter a valid UK car registration number ");
-            return null;
+        while(!recordRegistrationIfCorrectFormat(inputRegNumber)) {
+            inputRegNumber = enterValueForStringWithPrompt("Please enter a valid UK car registration number: ");
         }
     }
 
     @Override
     public String getID() {
         return this.regNumber;
+    }
+
+    @Override
+    public void setID(String ID) {
+        boolean registrationRecorded = recordRegistrationIfCorrectFormat(ID);
+
+        if(!registrationRecorded) {
+            System.out.println("Invalid registration format, please make sure it is in the standard UK for of @@##@@@");
+        }
+    }
+
+    @Override
+    void resetToDefault() {
+        this.regNumber = "";
+        System.out.println("The registration reader has been reset to default and any previous recorded id has been cleared.");
+    }
+
+    private boolean recordRegistrationIfCorrectFormat (String inputRegistration) {
+        String formatterRegNumber = capitalizeStringAndRemoveWhitespace(inputRegistration);
+        if(formatterRegNumber.matches("[A-Z]{2}[0-9]{2}[A-Z]{3}$")) {
+            this.regNumber = formatterRegNumber;
+            System.out.println("The car registration number " + regNumber + " has been recorded by the registration number reader.");
+            return true;
+        }
+        else {
+            System.out.println();
+            return false;
+        }
     }
 }

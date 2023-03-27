@@ -111,7 +111,7 @@ public class CarLogFile implements LogFile {
                     }
                 }
             }
-            System.out.println("The file " + carLogFileName + "was used to populate the hashtable.");
+            System.out.println("The file " + carLogFileName + " was used to populate the hashtable.");
 
             reader.close();
         }

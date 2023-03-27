@@ -6,9 +6,9 @@ interface Vehicles {
 
     void remove(String vehicleReg, String vehicleBarcode);
 
-    boolean checkVehiclePresentByBarcode (String vehicleBarcode);
+    String getRegistrationByBarcode (String vehicleBarcode);
 
-    boolean checkVehiclePresentByReg (String vehicleReg);
+    String getBarcodeFromVehicleReg (String vehicleReg);
 
     void printAll ();
 

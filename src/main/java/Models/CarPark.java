@@ -1,8 +1,12 @@
 package Models;
 
+import DataStorage.Cars;
+import FileHandling.CarLogFile;
 import InputOutput.ConsoleDialogue;
+import NavigationMenus.CarIDReaderMenu;
 
 import static InputOutput.ConsoleDialogue.pollCarParkSensor;
+import static NavigationMenus.CarIDReaderMenu.IDReaderMenu;
 
 public class CarPark implements Premises {
 
@@ -13,6 +17,7 @@ public class CarPark implements Premises {
         this.capacity = capacity;
     }
 
+    // TODO throw exception if capacity < spacesAvailable
     public CarPark(Integer capacity, Integer spacesAvailable) {
         this.capacity = capacity;
         this.spacesAvailable = spacesAvailable;
@@ -47,45 +52,53 @@ public class CarPark implements Premises {
 
     // TODO add update method
     //todo add to premises? list of args is specific
-    public void update(CarParkSensor entrySensor, CarParkSensor exitSensor) {
-
-        //ConsoleDialogue input = new ConsoleDialogue();
+    public void update(CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carLogFile) {
 
         //TODO - in update method, check only increment if barrier is raised
 
+        boolean carDetectedAtEntrance = pollCarParkSensor(entrySensor);
 
-        //Place your carpark update logic here.
-//            //The pseudo code illustrates some of the actions required
-//            // in conjunction with other classes and will need further refinement.
-//            //1.  poll car park components (sensor/etc).
-//            //************************************************
-        if (pollCarParkSensor(entrySensor)) {
-            // dialogue methods that asks to read in barcode or registration
-                // make sure use IDReader classes
+        if (carDetectedAtEntrance) {
 
-            // check if exists in members list (need to make the 'extra' bullet points)
-            // return barcode or reg from this, whichever is missing, or that need to join
-                //if needed: join and create bar code for car/member
-                    //add to members list
+            //TODO add javadoc for this: reads barcode or reg number from console. Checks against members list. if present, gets matching ID. If not, reads in additional ID to sign up.
+            while(IDReaderMenu(barcodeReader, regReader, carMembers));
 
-            // if car park not full->
-                // raise barier and let car pass
-                // add car to carpark
-                // record in log
-                // decrement car park spaces
+            if(spacesAvailable > 0) {
+                entryBarrier.raise();
+
+                //TODO make sure throw exception if invalid add.
+                carsInCarPark.add(barcodeReader.getID(), regReader.getID());
+                carLogFile.recordArrival(barcodeReader.getID(), regReader.getID());
+                incrementSpacesAvailable();
+                fullSign.update(spacesAvailable);
+
+                System.out.println("Car enters car park.");
+
+                entryBarrier.lower();
+            }
+            else {
+                fullSign.update(spacesAvailable);
+                System.out.println("Car park is full, please come back later.");
+            }
+
+
+
         }
         else {
             System.out.println("No car was detected at the " + entrySensor.getSensorLocation() + " barrier.");
         }
-//            //3.  if car present at entrance then
-//            //4.    if ID valid && car park not full then
-//            //5.      raise barrier and let car pass
-//            //6.	  endif
-//            //7.  endif
-//            //************************************************
-        if (pollCarParkSensor(exitSensor)) {
-            // dialogue methods that asks to read in barcode & registration
-                // make sure use IDReader classes
+
+        // TODO reset ID readers, sensor, and barriers (if needed) to default - try a lambda??
+        entrySensor.setSensor(false);
+        barcodeReader.resetToDefault();
+        regReader.resetToDefault();
+
+        boolean carDetectedAtExit = pollCarParkSensor(exitSensor);
+
+        if (carDetectedAtExit) {
+            // All exiting cars should already be members of the car park
+            //TODO optional- could add barrier as input for IDReader menu - if barier type is exit: problem if not member
+            while(IDReaderMenu(barcodeReader, regReader, carMembers));
 
             // check if exists in car park, if not throw exception or print warning
             // raise exit barrier
@@ -112,7 +125,14 @@ public class CarPark implements Premises {
 
         // reset sensors and barriers
 
-        //line out car park status - no spaces left print out
+
+
+        // TODO reset ID readers, sensor, and barriers (if needed) to default - try a lambda??
+        entrySensor.setSensor(false);
+        barcodeReader.resetToDefault();
+        regReader.resetToDefault();
+
+        //TODO - print car park status - line out car park status - no spaces left print out
     };
 
     public Integer getCapacity() {

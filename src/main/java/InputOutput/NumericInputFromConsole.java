@@ -28,6 +28,12 @@ public class NumericInputFromConsole {
 
     }
 
+    public static int readIntFromConsoleWithPrompt(String prompt) {
+        System.out.println(prompt);
+        return readIntFromConsoleNoPrompt();
+    }
+
+
     /** Method that reads a user input integer from the console within a set range.
      *  <p> If the user enters a value outside of the specified range, this will be caught and
      * the user will receive a message with a user promptMessage (from input parameters) asking them
@@ -50,23 +56,5 @@ public class NumericInputFromConsole {
 
             System.out.printf("%s %d and %d:", promptMessage, rangeMin, rangeMax);
         }
-    }
-
-    /**
-     * Method to check if an integer is within a specified range
-     * @param rangeMin - Integer - minimum bound of range
-     * @param rangeMax - Integer - maximum bound of range
-     * @param inputInteger - Integer to check
-     * @param promptMessage - String - Prompt for the user which appears if a value outside the range is entered
-     * @return boolean - True if the integer to check is withing the specified range
-     */
-    public static boolean checkIntIsInRangeWithPrompt(int rangeMin, int rangeMax, int inputInteger, String promptMessage) {
-        if (inputInteger >= rangeMin && inputInteger <= rangeMax) {
-            return true;
-        }
-
-        System.out.printf("%s %d and %d.\n", promptMessage, rangeMin, rangeMax);
-        return false;
-
     }
 }

@@ -84,6 +84,11 @@ public class MainCarParkDemo {
         carMembersFile.populateHashFromFile(carMembers);
 
         carMembers.printAll();
+
+        System.out.println();
+        System.out.println(carMembers.getRegistrationByBarcode("493521756156")); // expect "kg09zdi"
+        System.out.println();
+        System.out.println(carMembers.getBarcodeFromVehicleReg("iw40fgr"));  //547981781688,iw40fgr
     }
 
 //------pseudo code from Brief------------------------------

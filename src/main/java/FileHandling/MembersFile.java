@@ -82,7 +82,7 @@ public class MembersFile implements LogFile {
                     carHashTableFromFile.add(elements[0], elements[1]);
                 }
             }
-            System.out.println("The file " + membersFileName + "was used to populate the hashtable.");
+            System.out.println("The file " + membersFileName + " was used to populate the hashtable.");
 
             reader.close();
         }

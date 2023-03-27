@@ -18,23 +18,42 @@ public class IDReaderBarcode extends IDReader {
 
     //TODO - add java doc comment to explain fixed type of barcode input
     @Override
-    public String readID() {
-        String inputBarcode;
-        inputBarcode = enterValueForStringWithPrompt("Please enter the 12 digit barcode of the parking pass: ");
+    public void readID() {
+        String inputBarcode = "";
 
-        if (inputBarcode.matches("^\\d{12}$")) {
-            this.barcodeID = inputBarcode;
-            System.out.println("The parking pass barcode " + barcodeID + " has been recorded by the barcode reader.");
-            return barcodeID;
-        }
-        else {
-            System.out.println("Invalid barcode. Please enter a valid barcode with 12 digits and no spaces.");
-            return null;
+        while (!recordBarcodeIfCorrectFormat(inputBarcode)) {
+            inputBarcode = enterValueForStringWithPrompt("Please enter the 12 digit barcode of the parking pass: ");
         }
     }
 
     @Override
     public String getID() {
         return barcodeID;
+    }
+
+    @Override
+    public void setID(String ID) {
+        boolean barcodeRecorded = recordBarcodeIfCorrectFormat(ID);
+
+        if(!barcodeRecorded) {
+            System.out.println("Invalid barcode format, barcode should be 12 digits.");
+        }
+    }
+
+    @Override
+    void resetToDefault() {
+        this.barcodeID ="";
+        System.out.println("The barcode reader has been reset to default and any previous recorded id has been cleared.");
+    }
+
+    private boolean recordBarcodeIfCorrectFormat (String inputBarcode) {
+        if (inputBarcode.matches("^\\d{12}$")) {
+            this.barcodeID = inputBarcode;
+            System.out.println("The parking pass barcode " + barcodeID + " has been recorded by the barcode reader.");
+            return true;
+        } else {
+            System.out.println();
+            return false;
+        }
     }
 }
