@@ -15,10 +15,10 @@ public class Cars implements Vehicles {
     public void add(String vehicleBarcode, String vehicleReg) {
         if (!checkVehiclePresentByBarcode(vehicleBarcode) && !checkVehiclePresentByBarcode(vehicleReg)) {
             cars.put(vehicleBarcode, vehicleReg);
-            System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been added to the car park.");
+            System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been added.");
         }
         else {
-            System.out.println("The car cannot be added to the car park. We already have a vehicle with this ID on the premises.");
+            System.out.println("The vehicle cannot be added. We already have a vehicle with this ID.");
         }
     }
 
@@ -26,14 +26,15 @@ public class Cars implements Vehicles {
     public void remove(String vehicleBarcode, String vehicleReg) {
         if (checkVehiclePresentByBarcode(vehicleBarcode) && checkVehiclePresentByReg(vehicleReg)) {
             cars.remove(vehicleBarcode);
-            System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has left the car park.");
+            System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been removed.");
         }
         else {
-            System.out.println("Invalid vehicle details provided. We do not have a record of this vehicle in the car park.");
+            System.out.println("Invalid vehicle details provided. We do not have a record of this vehicle.");
         }
 
     }
 
+    //TODO - change these two methods so they return barcode from reg and visa versa
     @Override
     public boolean checkVehiclePresentByBarcode(String vehicleBarcode) {
         return cars.containsKey(vehicleBarcode);
@@ -45,7 +46,7 @@ public class Cars implements Vehicles {
     }
 
     @Override
-    public void printAllVehicles() {
+    public void printAll() {
         System.out.println(cars);
     }
 

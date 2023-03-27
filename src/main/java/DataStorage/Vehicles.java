@@ -10,7 +10,7 @@ interface Vehicles {
 
     boolean checkVehiclePresentByReg (String vehicleReg);
 
-    void printAllVehicles ();
+    void printAll ();
 
     boolean deleteAllVehicles ();
 

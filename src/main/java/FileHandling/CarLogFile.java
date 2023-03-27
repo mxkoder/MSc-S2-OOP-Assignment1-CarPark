@@ -33,8 +33,7 @@ public class CarLogFile implements LogFile {
 
     //TODO - make sure it can write to a CSV file
     // TODO - add time stamps
-    @Override
-    public void addRecord(String barcode, String registration) {
+    public void recordArrival(String barcode, String registration) {
 
         // TODO create file if not exist - or leave - will be caught by IO exception
         Date date = new Date();
@@ -45,6 +44,8 @@ public class CarLogFile implements LogFile {
             writer.append("IN" + "," + barcode + "," + registration + "," + new Timestamp(date.getTime()));
             writer.append("\n");
             writer.close();
+
+            System.out.println("Arrival of vehicle was recorded in the log file with barcode: " + barcode + " and registration: " + registration);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -52,8 +53,7 @@ public class CarLogFile implements LogFile {
     }
 
     // TODO optional refactor combine the similar add and remove methods
-    @Override
-    public void removeRecord(String barcode, String registration) {
+    public void recordDeparture(String barcode, String registration) {
         Date date = new Date();
 
         try
@@ -62,6 +62,8 @@ public class CarLogFile implements LogFile {
             writer.append("OUT" + "," + barcode + "," + registration + "," + new Timestamp(date.getTime()));
             writer.append("\n");
             writer.close();
+
+            System.out.println("Departure of vehicle was recorded in the log file with barcode: " + barcode + " and registration: " + registration);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +88,7 @@ public class CarLogFile implements LogFile {
     }
 
     //TODO add docs - in, out - will end up with a restored live record, cars that have entered & then left not included
-    public void createCarHashFromFile (Cars carHashTableFromFile) {
+    public void populateHashFromFile (Cars hashTableFromFile) {
 
         try {
             String line = "";
@@ -99,16 +101,18 @@ public class CarLogFile implements LogFile {
                 if(elements.length > 0) {
 
                     if(elements[0].equals("IN")) {
-                        carHashTableFromFile.add(elements[1], elements[2]);
+                        hashTableFromFile.add(elements[1], elements[2]);
                     }
                     else if (elements[0].equals("OUT")) {
-                        carHashTableFromFile.remove(elements[1], elements[2]);
+                        hashTableFromFile.remove(elements[1], elements[2]);
                     }
                     else {
                         System.out.println("Invalid record in log file.");
                     }
                 }
             }
+            System.out.println("The file " + carLogFileName + "was used to populate the hashtable.");
+
             reader.close();
         }
         catch (IOException e) {
