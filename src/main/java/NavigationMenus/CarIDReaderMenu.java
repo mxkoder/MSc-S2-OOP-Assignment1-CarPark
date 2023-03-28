@@ -15,7 +15,7 @@ public class CarIDReaderMenu {
         int menuOption = readIntFromConsoleWithPrompt("\nPlease choose an option: " +
                 "\n1) Read vehicle barcode" +
                 "\n2) Read vehicle registration" +
-                "\n3) Exit menu to continue" +
+                "\n3) Exit to continue operating car park" +
                 "\n Please select an option: ");
         //TODO - optional add in if statement to check if already recorded reg and barcode id?
 
@@ -31,7 +31,7 @@ public class CarIDReaderMenu {
 
                 break;
             case 3:
-                System.out.printf("You are exiting the main menu.\n");
+                System.out.printf("You are exiting the ID Reader menu.\n");
                 return false;
             default:
                 System.out.printf("No valid option selected.\n");
@@ -45,12 +45,15 @@ public class CarIDReaderMenu {
         if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
             String registration = carMembers.getRegistrationByBarcode(barcodeReader.getID());
 
+            System.out.println("We have retrieved the registration number " + registration + " from the car park members list for barcode " + barcodeReader.getID());
             regReader.setID(registration);
         }
         else
         {
             System.out.println("We do not have an account on record for this barcode." +
                     "\n [take payment if needed, and member will then be signed up]");
+
+            System.out.printf("\nPlease provide details to finalise car park membership.");
             regReader.readID();
             try {
                 carMembers.add(barcodeReader.getID(), regReader.getID());
@@ -65,11 +68,14 @@ public class CarIDReaderMenu {
         if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
             String barcode = carMembers.getBarcodeFromVehicleReg(barcodeReader.getID());
 
+            System.out.println("We have retrieved the barcode " + barcode + " from the car park members list for registration number " + regReader.getID());
             regReader.setID(barcode);
         }
         else {
             System.out.println("We do not have an account on record for this registration." +
                     "\n [take payment if needed, and member will then be signed up]");
+
+            System.out.printf("\nPlease provide details to finalise car park membership.");
             barcodeReader.readID();
             try {
                 carMembers.add(barcodeReader.getID(), regReader.getID());

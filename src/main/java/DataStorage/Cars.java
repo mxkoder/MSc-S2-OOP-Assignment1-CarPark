@@ -62,7 +62,9 @@ public class Cars implements Vehicles {
 
     @Override
     public void printAll() {
-        System.out.println(cars);
+        for (String key : cars.keySet()) {
+            System.out.println(key + ", " + cars.get(key));
+        }
     }
 
     // TODO - add javadoc, would have auth  & authenitcaiton here
@@ -89,7 +91,6 @@ public class Cars implements Vehicles {
                     System.out.printf("Invalid input. \n");
             }
         }
-
     }
 
     @Override
@@ -104,7 +105,6 @@ public class Cars implements Vehicles {
     public boolean vehicleIsFoundByReg(String vehicleReg) {
         return cars.containsValue(vehicleReg);
     }
-
 
     //TODO - methods to link in w file handling?? or add to existing methods to add to log??
 }

@@ -9,6 +9,10 @@ public class IDReaderRegistration extends IDReader {
 
     private String regNumber;
 
+    public IDReaderRegistration(String regNumber) {
+        this.regNumber = regNumber;
+    }
+
     //TODO - improve comment for car plate readID method
     /**
      * Checks for current and standard UK reg numbers only.
@@ -38,7 +42,7 @@ public class IDReaderRegistration extends IDReader {
     }
 
     @Override
-    void resetToDefault() {
+    public void resetToDefault() {
         this.regNumber = "";
         System.out.println("The registration reader has been reset to default and any previous recorded id has been cleared.");
     }
@@ -47,7 +51,7 @@ public class IDReaderRegistration extends IDReader {
         String formatterRegNumber = capitalizeStringAndRemoveWhitespace(inputRegistration);
         if(formatterRegNumber.matches("[A-Z]{2}[0-9]{2}[A-Z]{3}$")) {
             this.regNumber = formatterRegNumber;
-            System.out.println("The car registration number " + regNumber + " has been recorded by the registration number reader.");
+            System.out.println("The value of the barcode reader has been set to " + regNumber);
             return true;
         }
         else {

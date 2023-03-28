@@ -10,19 +10,21 @@ public class FullSign {
 
     public void switchOn () {
         this.fullSignIsOn = true;
+        System.out.println("The full sign is switched ON.");
     }
 
     public void switchOff () {
         this.fullSignIsOn = false;
+        System.out.println("The full sign is switched OFF.");
     }
 
     //TODO java doc returns true if on, false if off
     public boolean update (Integer spacesAvailable) {
         if (spacesAvailable > 0) {
-            fullSignIsOn = false;
+            switchOff();
         }
         else {
-            fullSignIsOn = true;
+            switchOn();
         }
         return fullSignIsOn;
     }

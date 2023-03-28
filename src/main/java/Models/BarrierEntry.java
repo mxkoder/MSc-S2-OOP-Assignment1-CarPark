@@ -2,11 +2,11 @@ package Models;
 
 public class BarrierEntry extends Barrier {
 
-    String[] barrierOptions = {"raised", "lowered"};
-    Integer barrierStatus = 1; // 1 = raised, 0 = lowered
+    String[] barrierOptions = {"lowered", "raised"};
+    Integer barrierStatus = 0; // 0 = lowered, 1 = raised
 
-    public BarrierEntry(Integer barrierStatus) {
-        this.barrierStatus = barrierStatus;
+    public BarrierEntry() {
+        this.barrierStatus = 0;
     }
 
     @Override

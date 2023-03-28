@@ -9,8 +9,6 @@ public class IDReaderBarcode extends IDReader {
     private String barcodeID;
 
     // TODO - check if need both constructors
-    public IDReaderBarcode() {
-    }
 
     public IDReaderBarcode(String barcodeID) {
         this.barcodeID = barcodeID;
@@ -41,7 +39,7 @@ public class IDReaderBarcode extends IDReader {
     }
 
     @Override
-    void resetToDefault() {
+    public void resetToDefault() {
         this.barcodeID ="";
         System.out.println("The barcode reader has been reset to default and any previous recorded id has been cleared.");
     }
@@ -49,7 +47,7 @@ public class IDReaderBarcode extends IDReader {
     private boolean recordBarcodeIfCorrectFormat (String inputBarcode) {
         if (inputBarcode.matches("^\\d{12}$")) {
             this.barcodeID = inputBarcode;
-            System.out.println("The parking pass barcode " + barcodeID + " has been recorded by the barcode reader.");
+            System.out.println("The value of the barcode reader has been set to " + barcodeID);
             return true;
         } else {
             System.out.println();
