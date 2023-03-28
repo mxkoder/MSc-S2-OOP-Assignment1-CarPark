@@ -1,5 +1,7 @@
 package NavigationMenus;
 
+import Exceptions.RecordCannotBeAdded;
+import Models.CarParkSensor;
 import Models.IDReaderBarcode;
 import Models.IDReaderRegistration;
 import DataStorage.Cars;
@@ -15,39 +17,18 @@ public class CarIDReaderMenu {
                 "\n2) Read vehicle registration" +
                 "\n3) Exit menu to continue" +
                 "\n Please select an option: ");
-        //TODO - add in if statement to check if already recorded reg and barcode id?
+        //TODO - optional add in if statement to check if already recorded reg and barcode id?
 
         switch (menuOption) {
             case 1:
                 barcodeReader.readID();
-
-                if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
-                    String registration = carMembers.getRegistrationByBarcode(barcodeReader.getID());
-
-                    regReader.setID(registration);
-                }
-                else {
-                    System.out.println("We do not have an account on record for this barcode." +
-                            "\n [take payment if needed, and member will then be signed up]");
-                    regReader.readID();
-                    carMembers.add(barcodeReader.getID(), regReader.getID());
-                }
+                getRegistrationForBarcodeAndAddMemberIfNotExists(barcodeReader, regReader, carMembers);
 
                 break;
             case 2:
                 regReader.readID();
+                getBarcodeForRegistrationAndAddMemberIfNotExists(barcodeReader, regReader, carMembers);
 
-                if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
-                    String barcode = carMembers.getBarcodeFromVehicleReg(barcodeReader.getID());
-
-                    regReader.setID(barcode);
-                }
-                else {
-                    System.out.println("We do not have an account on record for this registration." +
-                            "\n [take payment if needed, and member will then be signed up]");
-                    barcodeReader.readID();
-                    carMembers.add(barcodeReader.getID(), regReader.getID());
-                }
                 break;
             case 3:
                 System.out.printf("You are exiting the main menu.\n");
@@ -57,6 +38,46 @@ public class CarIDReaderMenu {
                 break;
         }
         return true;
+    }
+
+
+    public static void getRegistrationForBarcodeAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
+        if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
+            String registration = carMembers.getRegistrationByBarcode(barcodeReader.getID());
+
+            regReader.setID(registration);
+        }
+        else
+        {
+            System.out.println("We do not have an account on record for this barcode." +
+                    "\n [take payment if needed, and member will then be signed up]");
+            regReader.readID();
+            try {
+                carMembers.add(barcodeReader.getID(), regReader.getID());
+            }
+            catch (RecordCannotBeAdded e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void getBarcodeForRegistrationAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
+        if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
+            String barcode = carMembers.getBarcodeFromVehicleReg(barcodeReader.getID());
+
+            regReader.setID(barcode);
+        }
+        else {
+            System.out.println("We do not have an account on record for this registration." +
+                    "\n [take payment if needed, and member will then be signed up]");
+            barcodeReader.readID();
+            try {
+                carMembers.add(barcodeReader.getID(), regReader.getID());
+            }
+            catch (RecordCannotBeAdded e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static boolean checkIfISCarParkMember (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {

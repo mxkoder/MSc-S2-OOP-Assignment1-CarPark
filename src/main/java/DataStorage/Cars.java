@@ -1,5 +1,7 @@
 package DataStorage;
 
+import Exceptions.RecordCannotBeAdded;
+
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
@@ -11,15 +13,16 @@ public class Cars implements Vehicles {
     private static Scanner stdin = new Scanner(System.in);
 
     //TODO - optional - reformat and verify barcode and rg format within these methods as well?
-    //TODO - or can set it up to methods throw exception, eg if car already present and trying to add
     @Override
-    public void add(String vehicleBarcode, String vehicleReg) {
+    public void add(String vehicleBarcode, String vehicleReg) throws RecordCannotBeAdded {
         if (!vehicleIsFoundByBarcode(vehicleBarcode) && !vehicleIsFoundByReg(vehicleReg)) {
             cars.put(vehicleBarcode, vehicleReg);
             System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been added.");
         }
         else {
-            System.out.println("The vehicle cannot be added. We already have a vehicle with this ID.");
+            throw new RecordCannotBeAdded("The vehicle cannot be added. Table already contains a vehicle with "
+                    + vehicleBarcode + " or "
+                    + vehicleReg + ".");
         }
     }
 

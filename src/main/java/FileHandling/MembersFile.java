@@ -1,6 +1,7 @@
 package FileHandling;
 
 import DataStorage.Cars;
+import Exceptions.RecordCannotBeAdded;
 
 import java.io.*;
 import java.sql.Timestamp;
@@ -78,8 +79,12 @@ public class MembersFile implements LogFile {
                 String[] elements = line.split(",");
 
                 if(elements.length > 0) {
-
-                    carHashTableFromFile.add(elements[0], elements[1]);
+                    try {
+                        carHashTableFromFile.add(elements[0], elements[1]);
+                    }
+                    catch (RecordCannotBeAdded e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             System.out.println("The file " + membersFileName + " was used to populate the hashtable.");

@@ -1,6 +1,7 @@
 package FileHandling;
 
 import DataStorage.Cars;
+import Exceptions.RecordCannotBeAdded;
 
 import java.io.*;
 import java.sql.Timestamp;
@@ -101,7 +102,13 @@ public class CarLogFile implements LogFile {
                 if(elements.length > 0) {
 
                     if(elements[0].equals("IN")) {
-                        hashTableFromFile.add(elements[1], elements[2]);
+                        try {
+                            hashTableFromFile.add(elements[1], elements[2]);
+                        }
+                        catch (RecordCannotBeAdded e) {
+                            e.printStackTrace();
+                        }
+
                     }
                     else if (elements[0].equals("OUT")) {
                         hashTableFromFile.remove(elements[1], elements[2]);

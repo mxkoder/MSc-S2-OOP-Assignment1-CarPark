@@ -1,9 +1,12 @@
 package Models;
 
 import DataStorage.Cars;
+import Exceptions.RecordCannotBeAdded;
 import FileHandling.CarLogFile;
 import InputOutput.ConsoleDialogue;
 import NavigationMenus.CarIDReaderMenu;
+
+import java.io.IOException;
 
 import static InputOutput.ConsoleDialogue.pollCarParkSensor;
 import static NavigationMenus.CarIDReaderMenu.IDReaderMenu;
@@ -48,10 +51,16 @@ public class CarPark implements Premises {
         return this.spacesAvailable;
     };
 
-    // TODO can add method to increment/dec by more than one
+    // TODO optional can add method to increment/dec by more than one
 
-    // TODO add update method
-    //todo add to premises? list of args is specific
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
     public void update(CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carLogFile) {
 
         //TODO - in update method, check only increment if barrier is raised
@@ -64,31 +73,33 @@ public class CarPark implements Premises {
             while(IDReaderMenu(barcodeReader, regReader, carMembers));
 
             if(spacesAvailable > 0) {
-                entryBarrier.raise();
 
-                //TODO make sure throw exception if invalid add.
-                carsInCarPark.add(barcodeReader.getID(), regReader.getID());
-                carLogFile.recordArrival(barcodeReader.getID(), regReader.getID());
-                incrementSpacesAvailable();
-                fullSign.update(spacesAvailable);
+                try {
+                    carsInCarPark.add(barcodeReader.getID(), regReader.getID());
+                    carLogFile.recordArrival(barcodeReader.getID(), regReader.getID());
 
-                System.out.println("Car enters car park.");
+                    entryBarrier.raise();
+                    decrementSpacesAvailable();
+                    fullSign.update(spacesAvailable);
 
-                entryBarrier.lower();
+                    System.out.println("Vehicle enters car park.");
+
+                    entryBarrier.lower();
+                } catch (RecordCannotBeAdded e) {
+                    e.printStackTrace();
+                }
+
             }
             else {
                 fullSign.update(spacesAvailable);
                 System.out.println("Car park is full, please come back later.");
             }
-
-
-
         }
         else {
             System.out.println("No car was detected at the " + entrySensor.getSensorLocation() + " barrier.");
         }
 
-        // TODO reset ID readers, sensor, and barriers (if needed) to default - try a lambda??
+        // TODO reset ID readers, sensor, and barriers (if needed) to default - try a lambda?? or refactor and pull out as method?
         entrySensor.setSensor(false);
         barcodeReader.resetToDefault();
         regReader.resetToDefault();
@@ -97,49 +108,43 @@ public class CarPark implements Premises {
 
         if (carDetectedAtExit) {
             // All exiting cars should already be members of the car park
-            //TODO optional- could add barrier as input for IDReader menu - if barier type is exit: problem if not member
+            //TODO optional- could add barrier as input for IDReader menu - if sensor type is exit: problem if not member
             while(IDReaderMenu(barcodeReader, regReader, carMembers));
 
-            // check if exists in car park, if not throw exception or print warning
-            // raise exit barrier
-            // remove car from car park
-                // record in log
-                // increment car park spaces
+            if(carsInCarPark.vehicleIsFoundByBarcode(barcodeReader.getID()) && carsInCarPark.vehicleIsFoundByReg(regReader.getID())) {
 
+                exitBarrier.raise();
+
+                carsInCarPark.remove(barcodeReader.getID(), regReader.getID());
+                carLogFile.recordDeparture(barcodeReader.getID(), regReader.getID());
+                incrementSpacesAvailable();
+                fullSign.update(spacesAvailable);
+
+                System.out.println("Vehicle leaves car park.");
+
+                exitBarrier.lower();
+            }
+            else
+            {
+                System.out.println("We do not have a record of this vehicle entering the car park. \n"
+                        + "<Manual resolution of issue by attendant and parking payment needs to be taken.>");
+            }
         }
         else {
             System.out.println("No car was detected at the " + exitSensor.getSensorLocation() + " barrier.");
         }
-//            //9.  if car present at exit then
-//            //10.   raise barrier and let car pass
-//            //11.   update records and increment spaces
-//            //12. endif
-//            //************************************************
-//            //14. if carpark full then
-//            //15.   turn on full sign
-//            //16: else
-//            //17.   turn off full sign
-//            //18. endif
-//            //************************************************
-//            //...and so on
-
-        // reset sensors and barriers
-
-
 
         // TODO reset ID readers, sensor, and barriers (if needed) to default - try a lambda??
         entrySensor.setSensor(false);
         barcodeReader.resetToDefault();
         regReader.resetToDefault();
+        fullSign.update(spacesAvailable);
 
-        //TODO - print car park status - line out car park status - no spaces left print out
+        //TODO or have this as a 'to string' method??
+        System.out.println("At the end of the update cycle, the car park status is: "
+                + "Number of vehicles in car park: " + carsInCarPark.numberOfRecords()
+                + "Car park spaces available: " + spacesAvailable
+                + "Car park capacity: " + capacity
+                + "Number of car park members: " + carMembers.numberOfRecords());
     };
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
 }
