@@ -1,27 +1,35 @@
 package Models;
 
-import DataStorage.Cars;
-import Exceptions.RecordCannotBeAdded;
-import FileHandling.CarLogFile;
-import InputOutput.ConsoleDialogue;
-import NavigationMenus.CarIDReaderMenu;
-
-import java.io.IOException;
-
-import static InputOutput.ConsoleDialogue.pollCarParkSensor;
-import static NavigationMenus.CarIDReaderMenu.IDReaderMenu;
+import Exceptions.IsFull;
+import Exceptions.InvalidAvailabilityAndCapacityException;
 
 public class CarPark implements Premises {
 
     private Integer capacity;
     private Integer spacesAvailable;
 
-    // TODO throw exception if capacity < spacesAvailable
-    public CarPark(Integer capacity, Integer spacesAvailable) {
+    public CarPark (Integer capacity) {
         this.capacity = capacity;
-        this.spacesAvailable = spacesAvailable;
+        this.spacesAvailable = capacity;
     }
 
+    public void setSpacesAvailable (Integer spacesAvailable) throws InvalidAvailabilityAndCapacityException {
+        if(spacesAvailable > this.capacity) {
+            throw new InvalidAvailabilityAndCapacityException("Spaces available in car park cannot be greater than the ca park capacity.");
+        }
+        else {
+            this.spacesAvailable = spacesAvailable;
+        }
+    }
+
+    public void setCapacity(Integer capacity) throws InvalidAvailabilityAndCapacityException {
+        if(this.spacesAvailable > capacity) {
+            throw new InvalidAvailabilityAndCapacityException("Spaces available in car park cannot be greater than the ca park capacity.");
+        }
+        else {
+            this.capacity = capacity;
+        }
+    }
     @Override
     public void incrementSpacesAvailable() {
         if (spacesAvailable < capacity) {
@@ -33,12 +41,12 @@ public class CarPark implements Premises {
     }
 
     @Override
-    public void decrementSpacesAvailable() {
+    public void decrementSpacesAvailable() throws IsFull {
         if ( spacesAvailable >= 1 ) {
             this.spacesAvailable -= 1;
         }
         else {
-            System.out.println("The car park is already full.");
+            throw new IsFull("Car Park is FULL. Record cannot be added.");
         }
     }
 
@@ -53,9 +61,7 @@ public class CarPark implements Premises {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
+
 
 
 }

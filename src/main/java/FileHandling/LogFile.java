@@ -10,6 +10,4 @@ public interface LogFile {
 
     void printFileToConsole ();
 
-    void populateHashFromFile (Cars hashTableFromFile);
-
 }

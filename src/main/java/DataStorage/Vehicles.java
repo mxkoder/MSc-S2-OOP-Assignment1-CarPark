@@ -1,12 +1,13 @@
 package DataStorage;
 
 import Exceptions.RecordCannotBeAdded;
+import Exceptions.VehicleAtExitWasNotRecordedEntering;
 
 interface Vehicles {
 
     void add (String vehicleReg, String vehicleBarcode) throws RecordCannotBeAdded;
 
-    void remove(String vehicleReg, String vehicleBarcode);
+    void remove(String vehicleReg, String vehicleBarcode) throws VehicleAtExitWasNotRecordedEntering;
 
     String getRegistrationByBarcode (String vehicleBarcode);
 
@@ -14,7 +15,7 @@ interface Vehicles {
 
     void printAll ();
 
-    boolean deleteAllVehicles ();
+    boolean deleteAll ();
 
     Integer numberOfRecords ();
 }

@@ -1,6 +1,7 @@
 package DataStorage;
 
 import Exceptions.RecordCannotBeAdded;
+import Exceptions.VehicleAtExitWasNotRecordedEntering;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -27,13 +28,14 @@ public class Cars implements Vehicles {
     }
 
     @Override
-    public void remove(String vehicleBarcode, String vehicleReg) {
+    public void remove(String vehicleBarcode, String vehicleReg) throws VehicleAtExitWasNotRecordedEntering {
         if (vehicleIsFoundByBarcode(vehicleBarcode) && vehicleIsFoundByReg(vehicleReg)) {
             cars.remove(vehicleBarcode, vehicleReg);
             System.out.println("Car with barcode " + vehicleBarcode + " and registration " + vehicleReg + " has been removed.");
         }
         else {
-            System.out.println("Invalid vehicle details provided. We do not have a record of this vehicle.");
+            throw new VehicleAtExitWasNotRecordedEntering("We do not have a record of this vehicle entering the car park." +
+                    "\n------Manual resolution of issue by attendant and parking payment needs to be taken.------");
         }
 
     }
@@ -69,7 +71,7 @@ public class Cars implements Vehicles {
 
     // TODO - add javadoc, would have auth  & authenitcaiton here
     @Override
-    public boolean deleteAllVehicles() {
+    public boolean deleteAll() {
         String choice;
 
         System.out.printf("You are choosing to delete the live list of all the cars in the car park. \n" +

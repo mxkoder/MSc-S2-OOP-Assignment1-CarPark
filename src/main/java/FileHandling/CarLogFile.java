@@ -1,13 +1,21 @@
 package FileHandling;
 
 import DataStorage.Cars;
+import Exceptions.IsFull;
 import Exceptions.RecordCannotBeAdded;
+import Exceptions.VehicleAtExitWasNotRecordedEntering;
+import Models.CarPark;
 
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Scanner;
+
+import static FileHandling.MembersFile.checkIfWantToClearCurrentDataBeforeRestoringFromFile;
 
 public class CarLogFile implements LogFile {
+
+    private static Scanner stdin = new Scanner(System.in);
 
     private String carLogFileName;
 
@@ -94,7 +102,7 @@ public class CarLogFile implements LogFile {
     }
 
     //TODO add docs - in, out - will end up with a restored live record, cars that have entered & then left not included
-    public void populateHashFromFile (Cars hashTableFromFile) {
+    public void populateHashFromFile (Cars dataStorageToPopulate, CarPark carPark) {
 
         try {
             String line = "";
@@ -108,15 +116,23 @@ public class CarLogFile implements LogFile {
 
                     if(elements[0].equals("IN")) {
                         try {
-                            hashTableFromFile.add(elements[1], elements[2]);
+                            dataStorageToPopulate.add(elements[1], elements[2]);
+                            carPark.decrementSpacesAvailable();
                         }
-                        catch (RecordCannotBeAdded e) {
+                        catch (RecordCannotBeAdded | IsFull e) {
                             e.printStackTrace();
                         }
 
                     }
                     else if (elements[0].equals("OUT")) {
-                        hashTableFromFile.remove(elements[1], elements[2]);
+                        try {
+                            dataStorageToPopulate.remove(elements[1], elements[2]);
+                            carPark.incrementSpacesAvailable();
+                        }
+                        catch (VehicleAtExitWasNotRecordedEntering e) {
+                            e.printStackTrace();
+                        }
+
                     }
                     else {
                         System.out.println("Invalid record in log file.");
@@ -131,4 +147,47 @@ public class CarLogFile implements LogFile {
             e.printStackTrace();
         }
     }
+
+
+    public void restoreDataFromFile(Cars dataStorageToRestore, CarPark carPark) {
+        checkIfWantToClearCurrentDataBeforeRestoringFromFile(dataStorageToRestore);
+        populateHashFromFile(dataStorageToRestore, carPark);
+
+    }
+
+    public boolean clearFileContents() {
+        String choice;
+
+        System.out.printf("You are choosing to clear the contents of log file: " + carLogFileName + " would you like to proceed?\n");
+
+        while(true){
+            System.out.printf("Please enter y or n: \n");
+            choice = stdin.nextLine().toLowerCase();
+
+            switch(choice){
+                case "y":
+                    System.out.printf("You have chosen clear the contents of the log file. \n");
+
+                    try {
+                        File file = new File(carLogFileName);
+
+                        FileWriter fileWriter = new FileWriter(file);
+
+                        fileWriter.write("");
+                        fileWriter.close();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return true;
+                case "n":
+                    System.out.printf("You have chosen not to clear the contents of the log file. \n");
+                    return false;
+                default:
+                    System.out.printf("Invalid input. \n");
+            }
+        }
+    }
+
 }

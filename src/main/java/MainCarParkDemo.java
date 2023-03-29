@@ -3,12 +3,15 @@ import FileHandling.CarLogFile;
 import DataStorage.Cars;
 import FileHandling.MembersFile;
 import Models.*;
+import OperationHelpers.CarParkOperation;
 
 import java.util.Scanner;
 
-import static InputOutput.ConsoleDialogue.pollCarParkSensor;
+import static OperationHelpers.CarParkOperation.printCarParkStatus;
+import static OperationHelpers.CarParkOperation.update;
+import static OperationHelpers.ConsoleDialogue.pollCarParkSensor;
 import static InputOutput.NumericInputFromConsole.readIntFromConsoleWithPrompt;
-import static NavigationMenus.CarIDReaderMenu.IDReaderMenu;
+import static OperationHelpers.CarIDReaderMenu.IDReaderMenu;
 
 public class MainCarParkDemo {
 
@@ -19,7 +22,17 @@ public class MainCarParkDemo {
         //-------Car Park Setup---------------------------------------------------------------
 
         //-------Car park
-        CarPark carPark = new CarPark(5, 5);
+
+        //Option 1: Start with an empty car park
+        CarPark carPark = new CarPark(100);
+
+        //Option 2: Start with a near full car park
+//        try {
+//            carPark.setSpacesAvailable(2);
+//        }
+//        catch (InvalidAvailabilityAndCapacityException e) {
+//            e.printStackTrace();
+//        }
 
         //-------Setup car park log file
         CarLogFile carParkLogFile = new CarLogFile("carLogFile.csv");
@@ -52,7 +65,7 @@ public class MainCarParkDemo {
 
         boolean runMainMenu = true;
         while(runMainMenu) {
-            int menuOption = readIntFromConsoleWithPrompt("\n----------Main Car Park Menu----------" +1
+            int menuOption = readIntFromConsoleWithPrompt("\n----------Main Car Park Menu----------" +
                     "\nPlease choose an option: " +
                     "\n\nPrimary project function:" +
                     "\n1) Operate car park checking for cars arriving and departing" +
@@ -62,13 +75,15 @@ public class MainCarParkDemo {
                     "\n4) Print car park log file to console" +
                     "\n5) Restore live list of cars in Car Park from log file: " + carParkLogFile.getFileName() +
                     "\n6) Restore live list of Car Park members from members file: " + carMembersFile.getFileName() +
-                    "\n7) Exit program" +
+                    "\n7) Clear the contents of log file: " + carParkLogFile.getFileName() +
+                    "\n8) Print Car Park status" +
+                    "\n9) Exit program" +
                     "\n Please select an option: ");
 
             switch (menuOption) {
                 case 1:
                     // Core method which updates the car park, taking in input for the sensors and ID readers from the console
-                    while(operateCarParkUntilChooseSessionEnd(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile));
+                    while(operateCarParkUntilChooseSessionEnd(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile, carMembersFile));
 
                     break;
                 case 2:
@@ -83,12 +98,18 @@ public class MainCarParkDemo {
                     carParkLogFile.printFileToConsole();
                     break;
                 case 5:
-                    carParkLogFile.populateHashFromFile(carsInCarPark);
+                    carParkLogFile.restoreDataFromFile(carsInCarPark, carPark);
                     break;
                 case 6:
-                    carMembersFile.populateHashFromFile(carMembers);
+                    carMembersFile.restoreDataFromFile(carMembers);
                     break;
                 case 7:
+                    carParkLogFile.clearFileContents();
+                    break;
+                case 8:
+                    printCarParkStatus(carsInCarPark, carPark, carMembers);
+                    break;
+                case 9:
                     System.out.printf("You are exiting the program.\n");
                     runMainMenu = false;
                     break;
@@ -99,7 +120,7 @@ public class MainCarParkDemo {
         }
     }
 
-    public static boolean operateCarParkUntilChooseSessionEnd (CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carParkLogFile) {
+    public static boolean operateCarParkUntilChooseSessionEnd (CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
         String choice;
 
         System.out.printf("\nWould you like to continue to operate the car park and poll the exit and entrance? \n");
@@ -111,7 +132,7 @@ public class MainCarParkDemo {
             switch(choice){
                 case "y":
                     System.out.printf("You have chosen to continue to operate the car park. \n");
-                    update(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile);
+                    update(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile, carMembersFile);
                     return true;
                 case "n":
                     System.out.printf("You have chosen exit back to the main menu. \n");
@@ -121,92 +142,6 @@ public class MainCarParkDemo {
             }
         }
     }
-
-    public static void update(CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carParkLogFile) {
-
-        //TODO - in update method, check only increment if barrier is raised
-
-        //---------------Poll entrance and update car park--------------------------------------
-        boolean carDetectedAtEntrance = pollCarParkSensor(entrySensor);
-
-        if (carDetectedAtEntrance) {
-
-            //TODO add javadoc for this: reads barcode or reg number from console. Checks against members list. if present, gets matching ID. If not, reads in additional ID to sign up.
-            while(IDReaderMenu(barcodeReader, regReader, carMembers));
-
-            //TODO optional add if have reg and barcode, then.. otherwise: incomplete details -> go back to id reader menu
-            if(carPark.getSpacesAvailable() > 0) {
-
-                try {
-                    System.out.println("\nCar park " + entrySensor.getSensorLocation() + " update:");
-                    carsInCarPark.add(barcodeReader.getID(), regReader.getID());
-                    carParkLogFile.recordArrival(barcodeReader.getID(), regReader.getID());
-
-                    entryBarrier.raise();
-                    carPark.decrementSpacesAvailable();
-                    System.out.println("Vehicle enters car park.");
-                    entryBarrier.lower();
-
-                } catch (RecordCannotBeAdded e) {
-                    e.printStackTrace();
-                }
-
-            }
-            else {
-                fullSign.update(carPark.getSpacesAvailable());
-                System.out.println("Car park is full, please come back later.");
-            }
-        }
-
-        resetAndUpdateCarParkDevices(entrySensor, barcodeReader, regReader, fullSign, carPark);
-
-        //---------------Poll exit and update car park--------------------------------------
-        boolean carDetectedAtExit = pollCarParkSensor(exitSensor);
-
-        if (carDetectedAtExit) {
-            // All exiting cars should already be members of the car park
-            //TODO optional- could add barrier as input for IDReader menu - if sensor type is exit: problem if not member
-            while(IDReaderMenu(barcodeReader, regReader, carMembers));
-
-            if(carsInCarPark.vehicleIsFoundByBarcode(barcodeReader.getID()) && carsInCarPark.vehicleIsFoundByReg(regReader.getID())) {
-
-                System.out.println("\nCar park " + exitSensor.getSensorLocation() + " update:");
-                carsInCarPark.remove(barcodeReader.getID(), regReader.getID());
-                carParkLogFile.recordDeparture(barcodeReader.getID(), regReader.getID());
-
-                exitBarrier.raise();
-                carPark.incrementSpacesAvailable();
-                System.out.println("Vehicle leaves car park.");
-                exitBarrier.lower();
-            }
-            else
-            {
-                System.out.println("We do not have a record of this vehicle entering the car park. \n"
-                        + "<Manual resolution of issue by attendant and parking payment needs to be taken.>");
-            }
-        }
-
-        resetAndUpdateCarParkDevices(entrySensor, barcodeReader, regReader, fullSign, carPark);
-
-        //TODO or have this as a 'to string' method??
-        System.out.println("\nAt the end of the update cycle, the car park status is: "
-                + "\n- Number of vehicles in car park: " + carsInCarPark.numberOfRecords()
-                + "\n- Car park spaces available: " + carPark.getSpacesAvailable()
-                + "\n- Car park capacity: " + carPark.getCapacity()
-                + "\n- Number of car park members: " + carMembers.numberOfRecords());
-        //TODO - optional add counter: x cars have entered and x cars have left the car park during this session
-    };
-
-    public static void resetAndUpdateCarParkDevices (CarParkSensor entrySensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, FullSign fullSign, CarPark carPark) {
-        System.out.println("\n----------Resetting car park devices----------");
-        entrySensor.setSensor(false);
-        barcodeReader.resetToDefault();
-        regReader.resetToDefault();
-        fullSign.update(carPark.getSpacesAvailable());
-        System.out.println("\n-----------------------------------------------");
-    }
-
-
 }
 
 //-------------------initial demo run-----------------------------------------

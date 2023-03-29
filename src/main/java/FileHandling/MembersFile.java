@@ -5,8 +5,11 @@ import Exceptions.RecordCannotBeAdded;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.util.Scanner;
 
 public class MembersFile implements LogFile {
+
+    private static Scanner stdin = new Scanner(System.in);
 
     private String membersFileName;
 
@@ -73,8 +76,9 @@ public class MembersFile implements LogFile {
 
     }
 
-    @Override
-    public void populateHashFromFile(Cars carHashTableFromFile) {
+
+    public void populateHashFromFile(Cars dataStorageToRestore) {
+
         try {
             String line = "";
             BufferedReader reader = new BufferedReader(new FileReader(membersFileName));
@@ -83,9 +87,9 @@ public class MembersFile implements LogFile {
 
                 String[] elements = line.split(",");
 
-                if(elements.length > 0) {
+                if(elements.length >= 2) {
                     try {
-                        carHashTableFromFile.add(elements[0], elements[1]);
+                        dataStorageToRestore.add(elements[0], elements[1].toUpperCase());
                     }
                     catch (RecordCannotBeAdded e) {
                         e.printStackTrace();
@@ -99,6 +103,33 @@ public class MembersFile implements LogFile {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void restoreDataFromFile(Cars dataStorageToRestore) {
+        checkIfWantToClearCurrentDataBeforeRestoringFromFile(dataStorageToRestore);
+        populateHashFromFile(dataStorageToRestore);
+    }
+
+    public static boolean checkIfWantToClearCurrentDataBeforeRestoringFromFile (Cars dataStorage) {
+        String choice;
+
+        System.out.printf("Would you like to clear current data in the live record before restoring from the backup file? \n");
+
+        while(true){
+            System.out.printf("Please enter y or n: \n");
+            choice = stdin.nextLine().toLowerCase();
+
+            switch(choice){
+                case "y":
+                    System.out.printf("You have chosen to clear the current live record before restoring from the back up file. \n");
+                    dataStorage.deleteAll();
+                    return true;
+                case "n":
+                    System.out.printf("You have chosen not clear the current live record of data before restoring from the back up file. \n");
+                    return false;
+                default:
+                    System.out.printf("Invalid input. \n");
+            }
+        }
     }
 }

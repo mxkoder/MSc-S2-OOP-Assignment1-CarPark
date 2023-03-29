@@ -1,6 +1,7 @@
-package NavigationMenus;
+package OperationHelpers;
 
 import Exceptions.RecordCannotBeAdded;
+import FileHandling.MembersFile;
 import Models.CarParkSensor;
 import Models.IDReaderBarcode;
 import Models.IDReaderRegistration;
@@ -11,7 +12,7 @@ import static InputOutput.NumericInputFromConsole.readIntFromConsoleWithPrompt;
 public class CarIDReaderMenu {
 
     //TODO add javadoc for this: reads barcode or reg number from console. Checks against members list. if present, gets matching ID. If not, reads in additional ID to sign up.
-    public static boolean IDReaderMenu(IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
+    public static boolean IDReaderMenu(IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
         int menuOption = readIntFromConsoleWithPrompt("\n----------ID Reader Menu----------"+
                 "\nPlease choose an option: " +
                 "\n1) Read vehicle barcode" +
@@ -23,17 +24,18 @@ public class CarIDReaderMenu {
         switch (menuOption) {
             case 1:
                 barcodeReader.readID();
-                getRegistrationForBarcodeAndAddMemberIfNotExists(barcodeReader, regReader, carMembers);
+                getRegistrationForBarcodeAndAddMemberIfNotExists(barcodeReader, regReader, carMembers, carMembersFile);
+                return false;
 
-                break;
             case 2:
                 regReader.readID();
-                getBarcodeForRegistrationAndAddMemberIfNotExists(barcodeReader, regReader, carMembers);
+                getBarcodeForRegistrationAndAddMemberIfNotExists(barcodeReader, regReader, carMembers, carMembersFile);
+                return false;
 
-                break;
             case 3:
                 System.out.printf("You are exiting the ID Reader menu.\n");
                 return false;
+
             default:
                 System.out.printf("No valid option selected.\n");
                 break;
@@ -41,8 +43,7 @@ public class CarIDReaderMenu {
         return true;
     }
 
-
-    public static void getRegistrationForBarcodeAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
+    public static void getRegistrationForBarcodeAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
         if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
             String registration = carMembers.getRegistrationByBarcode(barcodeReader.getID());
 
@@ -58,6 +59,7 @@ public class CarIDReaderMenu {
             regReader.readID();
             try {
                 carMembers.add(barcodeReader.getID(), regReader.getID());
+                carMembersFile.addMember(barcodeReader.getID(), regReader.getID());
             }
             catch (RecordCannotBeAdded e) {
                 e.printStackTrace();
@@ -65,12 +67,12 @@ public class CarIDReaderMenu {
         }
     }
 
-    public static void getBarcodeForRegistrationAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
+    public static void getBarcodeForRegistrationAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
         if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
-            String barcode = carMembers.getBarcodeFromVehicleReg(barcodeReader.getID());
+            String barcode = carMembers.getBarcodeFromVehicleReg(regReader.getID());
 
             System.out.println("We have retrieved the barcode " + barcode + " from the car park members list for registration number " + regReader.getID());
-            regReader.setID(barcode);
+            barcodeReader.setID(barcode);
         }
         else {
             System.out.println("We do not have an account on record for this registration." +
@@ -80,6 +82,7 @@ public class CarIDReaderMenu {
             barcodeReader.readID();
             try {
                 carMembers.add(barcodeReader.getID(), regReader.getID());
+                carMembersFile.addMember(barcodeReader.getID(), regReader.getID());
             }
             catch (RecordCannotBeAdded e) {
                 e.printStackTrace();
