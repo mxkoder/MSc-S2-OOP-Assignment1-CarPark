@@ -7,6 +7,7 @@ import Models.*;
 import java.util.Scanner;
 
 import static InputOutput.ConsoleDialogue.pollCarParkSensor;
+import static InputOutput.NumericInputFromConsole.readIntFromConsoleWithPrompt;
 import static NavigationMenus.CarIDReaderMenu.IDReaderMenu;
 
 public class MainCarParkDemo {
@@ -47,35 +48,55 @@ public class MainCarParkDemo {
 
 
         //************************************************************************************
-        //-------Operate car park---------------------------------------------------------------
+        //-------Car Park Operation and Main Menu---------------------------------------------------------------
 
-//        while(operateCarParkUntilChooseSessionEnd(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile));
-//
-//        System.out.println("\n check carpark list");
-//        carsInCarPark.printAll();
+        boolean runMainMenu = true;
+        while(runMainMenu) {
+            int menuOption = readIntFromConsoleWithPrompt("\n----------Main Car Park Menu----------" +1
+                    "\nPlease choose an option: " +
+                    "\n\nPrimary project function:" +
+                    "\n1) Operate car park checking for cars arriving and departing" +
+                    "\nAdditional options:" +
+                    "\n2) Print list of cars currently in Car Park to console" +
+                    "\n3) Print list of car park members to console" +
+                    "\n4) Print car park log file to console" +
+                    "\n5) Restore live list of cars in Car Park from log file: " + carParkLogFile.getFileName() +
+                    "\n6) Restore live list of Car Park members from members file: " + carMembersFile.getFileName() +
+                    "\n7) Exit program" +
+                    "\n Please select an option: ");
 
-        carMembers.tempPrint();
+            switch (menuOption) {
+                case 1:
+                    // Core method which updates the car park, taking in input for the sensors and ID readers from the console
+                    while(operateCarParkUntilChooseSessionEnd(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile));
 
-        //TODO - main menu - make clear 'core' function vs additional
-
-
-        //------pseudo code from Brief------------------------------
-//     public class source {
-//         public static void main(String[] args) {
-//             cCarPark NCP = new cCarPark();
-//             for (int i = 0; i < 10; i++) {
-//                 NCP.update();
-//                 System.out.println(i + ": polling carpark components and reacting to state");
-//                 try {
-//                     System.in.read();
-//                 }
-//                 catch (Exception e) {
-//                 }
-//             }
-//         }
-//     }
-
-
+                    break;
+                case 2:
+                    System.out.println("----------Printout of cars currently in the Car Park----------");
+                    carsInCarPark.printAll();
+                    break;
+                case 3:
+                    System.out.println("----------Printout of current Car Park members----------");
+                    carMembers.printAll();
+                    break;
+                case 4:
+                    carParkLogFile.printFileToConsole();
+                    break;
+                case 5:
+                    carParkLogFile.populateHashFromFile(carsInCarPark);
+                    break;
+                case 6:
+                    carMembersFile.populateHashFromFile(carMembers);
+                    break;
+                case 7:
+                    System.out.printf("You are exiting the program.\n");
+                    runMainMenu = false;
+                    break;
+                default:
+                    System.out.printf("No valid option selected.\n");
+                    break;
+            }
+        }
     }
 
     public static boolean operateCarParkUntilChooseSessionEnd (CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carParkLogFile) {

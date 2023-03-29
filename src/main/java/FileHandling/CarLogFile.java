@@ -32,6 +32,11 @@ public class CarLogFile implements LogFile {
         }
     }
 
+    @Override
+    public String getFileName() {
+        return this.carLogFileName;
+    }
+
     //TODO - make sure it can write to a CSV file
     // TODO - add time stamps
     public void recordArrival(String barcode, String registration) {
@@ -118,7 +123,7 @@ public class CarLogFile implements LogFile {
                     }
                 }
             }
-            System.out.println("The file " + carLogFileName + " was used to populate the hashtable.");
+            System.out.println("The file " + carLogFileName + " was used to populate the hashtable, adding only unique barcodes and registration numbers.");
 
             reader.close();
         }

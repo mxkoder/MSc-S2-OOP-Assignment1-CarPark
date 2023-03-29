@@ -12,7 +12,8 @@ public class CarIDReaderMenu {
 
     //TODO add javadoc for this: reads barcode or reg number from console. Checks against members list. if present, gets matching ID. If not, reads in additional ID to sign up.
     public static boolean IDReaderMenu(IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
-        int menuOption = readIntFromConsoleWithPrompt("\nPlease choose an option: " +
+        int menuOption = readIntFromConsoleWithPrompt("\n----------ID Reader Menu----------"+
+                "\nPlease choose an option: " +
                 "\n1) Read vehicle barcode" +
                 "\n2) Read vehicle registration" +
                 "\n3) Exit to continue operating car park" +

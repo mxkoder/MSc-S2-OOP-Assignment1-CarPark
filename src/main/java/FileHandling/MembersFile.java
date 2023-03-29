@@ -31,6 +31,11 @@ public class MembersFile implements LogFile {
         }
     }
 
+    @Override
+    public String getFileName() {
+        return this.membersFileName;
+    }
+
     public void addMember(String barcode, String registration) {
 
         try
@@ -87,7 +92,7 @@ public class MembersFile implements LogFile {
                     }
                 }
             }
-            System.out.println("The file " + membersFileName + " was used to populate the hashtable.");
+            System.out.println("The file " + membersFileName + " was used to populate the hashtable. Only members not already in the live list of members will be added.");
 
             reader.close();
         }

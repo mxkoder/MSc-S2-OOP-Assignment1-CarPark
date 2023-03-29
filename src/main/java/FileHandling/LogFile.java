@@ -6,7 +6,10 @@ public interface LogFile {
 
     void createLogFile ();
 
+    String getFileName ();
+
     void printFileToConsole ();
 
     void populateHashFromFile (Cars hashTableFromFile);
+
 }
