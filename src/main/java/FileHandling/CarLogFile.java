@@ -101,7 +101,7 @@ public class CarLogFile implements LogFile {
         }
     }
 
-    //TODO add docs - in, out - will end up with a restored live record, cars that have entered & then left not included
+    //TODO add docs - in, out - will end up with a restored live record, cars that have entered & then left not included, add that updates car park spaces available
     public void populateHashFromFile (Cars dataStorageToPopulate, CarPark carPark) {
 
         try {
@@ -148,11 +148,9 @@ public class CarLogFile implements LogFile {
         }
     }
 
-
     public void restoreDataFromFile(Cars dataStorageToRestore, CarPark carPark) {
         checkIfWantToClearCurrentDataBeforeRestoringFromFile(dataStorageToRestore);
         populateHashFromFile(dataStorageToRestore, carPark);
-
     }
 
     public boolean clearFileContents() {
