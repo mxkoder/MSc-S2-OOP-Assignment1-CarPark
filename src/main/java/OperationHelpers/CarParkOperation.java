@@ -12,7 +12,7 @@ import static OperationHelpers.CarIDReaderMenu.IDReaderMenu;
 import static OperationHelpers.ConsoleDialogue.pollCarParkSensor;
 
 public class CarParkOperation {
-    public static void update(CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
+    public static void update(CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, CarParkBarrier entryBarrier, CarParkBarrier exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
 
         //---------------Poll entrance and update car park--------------------------------------
         boolean carDetectedAtEntrance = pollCarParkSensor(entrySensor);

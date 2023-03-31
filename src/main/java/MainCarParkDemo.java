@@ -1,17 +1,12 @@
-import Exceptions.RecordCannotBeAdded;
 import FileHandling.CarLogFile;
 import DataStorage.Cars;
 import FileHandling.MembersFile;
 import Models.*;
-import OperationHelpers.CarParkOperation;
-
 import java.util.Scanner;
 
 import static OperationHelpers.CarParkOperation.printCarParkStatus;
 import static OperationHelpers.CarParkOperation.update;
-import static OperationHelpers.ConsoleDialogue.pollCarParkSensor;
 import static InputOutput.NumericInputFromConsole.readIntFromConsoleWithPrompt;
-import static OperationHelpers.CarIDReaderMenu.IDReaderMenu;
 
 public class MainCarParkDemo {
 
@@ -55,8 +50,8 @@ public class MainCarParkDemo {
         CarParkSensor exitSensor = new CarParkSensor(false, "exit");
         IDReaderBarcode barcodeReader = new IDReaderBarcode("");
         IDReaderRegistration regReader = new IDReaderRegistration("");
-        BarrierEntry entryBarrier = new BarrierEntry();
-        BarrierExit exitBarrier = new BarrierExit();
+        CarParkBarrier entryBarrier = new CarParkBarrier("entrance");
+        CarParkBarrier exitBarrier = new CarParkBarrier("exit");
         FullSign fullSign = new FullSign(false);
 
 
@@ -120,7 +115,7 @@ public class MainCarParkDemo {
         }
     }
 
-    public static boolean operateCarParkUntilChooseSessionEnd (CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, BarrierEntry entryBarrier, BarrierExit exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
+    public static boolean operateCarParkUntilChooseSessionEnd (CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, CarParkBarrier entryBarrier, CarParkBarrier exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
         String choice;
 
         System.out.printf("\nWould you like to continue to operate the car park and poll the exit and entrance? \n");
@@ -144,6 +139,8 @@ public class MainCarParkDemo {
     }
 }
 
+
+//TODO make sure delete this when not needed
 //-------------------initial demo run-----------------------------------------
 ////        IDReaderBarcode barcodeReader = new IDReaderBarcode();
 ////
