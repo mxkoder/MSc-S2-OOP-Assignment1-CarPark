@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Cars implements Vehicles {
 
-    private Hashtable <String, String> cars = new Hashtable<String, String>(); // barcode is key, reg plate is value
+    private Hashtable <String, String> cars = new Hashtable<String, String>(); // barcode is key, registration number is value
 
     private static Scanner stdin = new Scanner(System.in);
 
@@ -62,14 +62,17 @@ public class Cars implements Vehicles {
         return "Vehicle registration not found";
     }
 
+    /**
+     * Method to print all key value pairs stored in the hashtable of the Cars class to the console
+     * The method prints the barcode (key) and registration (value) of each vehicle in the hashtable
+     * on one line in the console.
+     */
     @Override
     public void printAll() {
-        for (String key : cars.keySet()) {
-            System.out.println(key + ", " + cars.get(key));
-        }
+        cars.keySet().forEach((String key) -> System.out.println("Barcode: " + key + ", Registration: " + cars.get(key)));
     }
 
-    // TODO - add javadoc, would have auth  & authenitcaiton here
+    // TODO - add javadoc, would have auth  & authentication here
     @Override
     public boolean deleteAll() {
         String choice;

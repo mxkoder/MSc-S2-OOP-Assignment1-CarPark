@@ -7,6 +7,7 @@ import java.util.Scanner;
 import static OperationHelpers.CarParkOperation.printCarParkStatus;
 import static OperationHelpers.CarParkOperation.update;
 import static InputOutput.NumericInputFromConsole.readIntFromConsoleWithPrompt;
+import static OperationHelpers.ConsoleDialogue.operateCarParkUntilChooseSessionEnd;
 
 public class MainCarParkDemo {
 
@@ -114,115 +115,4 @@ public class MainCarParkDemo {
             }
         }
     }
-
-    public static boolean operateCarParkUntilChooseSessionEnd (CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, CarParkBarrier entryBarrier, CarParkBarrier exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
-        String choice;
-
-        System.out.printf("\nWould you like to continue to operate the car park and poll the exit and entrance? \n");
-
-        while(true){
-            System.out.printf("Please enter y or n: \n");
-            choice = stdin.nextLine().toLowerCase();
-
-            switch(choice){
-                case "y":
-                    System.out.printf("You have chosen to continue to operate the car park. \n");
-                    update(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile, carMembersFile);
-                    return true;
-                case "n":
-                    System.out.printf("You have chosen exit back to the main menu. \n");
-                    return false;
-                default:
-                    System.out.printf("Invalid input. \n");
-            }
-        }
-    }
 }
-
-
-//TODO make sure delete this when not needed
-//-------------------initial demo run-----------------------------------------
-////        IDReaderBarcode barcodeReader = new IDReaderBarcode();
-////
-////        barcodeReader.readID();
-//
-////        //----------------reg reader----------
-////        // TODO - test reg plate ID reader
-////        IDReaderRegistration regReader = new IDReaderRegistration();
-////
-////        regReader.readID();
-////
-////        System.out.println("reg plate recorded is: " + regReader.getID());
-//
-//        //--------------- log file
-//
-//        CarLogFile carLog1 = new CarLogFile("carLog1.csv");
-//        carLog1.createLogFile();
-//
-//        //------------cars list----------------------------------
-//        Cars cars = new Cars();
-//
-//        cars.add("768886", "thy7hj");
-//        carLog1.recordArrival("768886", "thy7hj");
-//
-//        cars.add("123", "abc");
-//        carLog1.recordArrival("123", "abc");
-//
-//        cars.add("7654886", "tyuy7hj");
-//        carLog1.recordArrival("7654886", "tyuy7hj");
-//
-//        cars.add("7872030886", "tyuy7abcggehj");
-//        carLog1.recordArrival("7872030886", "tyuy7abcggehj");
-//
-//        cars.add("76521246", "tyurety");
-//        carLog1.recordArrival("76521246", "tyurety");
-//
-//        cars.printAll();
-//
-//        cars.remove("123", "abc");
-//        carLog1.recordDeparture("123", "abc");
-//
-//        cars.printAll();
-////
-////        System.out.println("search for barcode, present: " + cars.checkVehiclePresentByBarcode("768886"));
-////        System.out.println("search for barcode,  not present: " + cars.checkVehiclePresentByBarcode("778687686868886"));
-////
-////        System.out.println("search for reg, present: " + cars.checkVehiclePresentByReg("thy7hj"));
-////        System.out.println("search for reg, not present: " + cars.checkVehiclePresentByReg("thy7gyyjbhj"));
-////
-////        cars.deleteVehicles();
-////
-////        System.out.println("vehicle list is now: " );
-////        cars.printVehicles();
-//
-//        //--------------check log file
-//
-//        carLog1.printFileToConsole();
-//
-//        Cars restoredCars = new Cars();
-//
-//
-//        carLog1.populateHashFromFile(restoredCars);
-//
-//
-//        //------------comparison check of restored records and previous records-------------
-//        cars.printAll();
-//        restoredCars.printAll();
-
-
-//        //-------------Check Member's list--------------------------------------------------
-//
-//        Cars carMembers = new Cars();
-//
-//        MembersFile carMembersFile = new MembersFile("car_park_members.csv");
-//
-//        // carMembersFile.createLogFile();
-//
-//        carMembersFile.populateHashFromFile(carMembers);
-//
-//        carMembers.printAll();
-//
-//        System.out.println();
-//        System.out.println(carMembers.getRegistrationByBarcode("493521756156")); // expect "kg09zdi"
-//        System.out.println();
-//        System.out.println(carMembers.getBarcodeFromVehicleReg("iw40fgr"));  //547981781688,iw40fgr

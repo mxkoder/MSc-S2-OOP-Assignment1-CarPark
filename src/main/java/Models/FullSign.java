@@ -27,5 +27,7 @@ public class FullSign {
             switchOn();
         }
         return fullSignIsOn;
+
     }
 }
+
