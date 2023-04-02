@@ -1,14 +1,10 @@
 package Models;
 
-import InputOutput.StringInputFromConsole;
-
 import static InputOutput.StringInputFromConsole.enterValueForStringWithPrompt;
 
 public class IDReaderBarcode extends IDReader {
 
     private String barcodeID;
-
-    // TODO - check if need both constructors
 
     public IDReaderBarcode(String barcodeID) {
         this.barcodeID = barcodeID;

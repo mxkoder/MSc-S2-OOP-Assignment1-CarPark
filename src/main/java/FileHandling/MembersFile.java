@@ -4,7 +4,6 @@ import DataStorage.Cars;
 import Exceptions.RecordCannotBeAdded;
 
 import java.io.*;
-import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class MembersFile implements LogFile {
@@ -130,6 +129,22 @@ public class MembersFile implements LogFile {
                 default:
                     System.out.printf("Invalid input. \n");
             }
+        }
+    }
+
+    //TODO comments
+    public void clearFileContentsOnlyForTest() {
+
+        try {
+            File file = new File(membersFileName);
+
+            FileWriter fileWriter = new FileWriter(file);
+
+            fileWriter.write("");
+            fileWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

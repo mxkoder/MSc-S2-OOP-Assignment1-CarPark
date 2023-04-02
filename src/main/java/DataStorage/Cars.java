@@ -110,6 +110,4 @@ public class Cars implements Vehicles {
     public boolean vehicleIsFoundByReg(String vehicleReg) {
         return cars.containsValue(vehicleReg);
     }
-
-    //TODO - methods to link in w file handling?? or add to existing methods to add to log??
 }

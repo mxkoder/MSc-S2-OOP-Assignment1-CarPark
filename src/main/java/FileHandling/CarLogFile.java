@@ -188,4 +188,20 @@ public class CarLogFile implements LogFile {
         }
     }
 
+    //TODO comments
+    public void clearFileContentsOnlyForTest() {
+
+            try {
+                File file = new File(carLogFileName);
+
+                FileWriter fileWriter = new FileWriter(file);
+
+                fileWriter.write("");
+                fileWriter.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
 }

@@ -22,6 +22,4 @@ public class CarParkSensor extends Sensor {
     public String getSensorLocation() {
         return sensorLocation;
     }
-
-    //TODO update()?? what would it update?
 }

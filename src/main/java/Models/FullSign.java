@@ -27,7 +27,11 @@ public class FullSign {
             switchOn();
         }
         return fullSignIsOn;
+    }
 
+    //TODO add javadoc
+    public boolean getStatus () {
+        return this.fullSignIsOn;
     }
 }
 
