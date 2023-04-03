@@ -1,23 +1,26 @@
 package ModelsTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import Models.IDReaderBarcode;
 import org.junit.jupiter.api.Test;
 
-public class IDReaderBarcodeTest {
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-    //todo - console input test??
-    //mock enterValueForStringWithPrompt
-    // similar to: when(mockSpacesAvailable.intValue()).thenReturn(0);
-//
-//    @Test
-//    public void testReadID() {
-//        IDReaderBarcode reader = spy(new IDReaderBarcode(""));
-//        doReturn("123456789012").when(reader).enterValueForStringWithPrompt(anyString());
-//        reader.readID();
-//        assertEquals("123456789012", reader.getID());
-//    }
+import static org.junit.Assert.*;
+
+public class IDReaderBarcodeTest {
+    @Test
+    public void testReadIDWithCorrectFormat() {
+        IDReaderBarcode reader = new IDReaderBarcode("");
+        System.setIn(new ByteArrayInputStream("123456789012\n".getBytes()));
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        reader.readID();
+        String prompt = "\nPlease enter the 12 digit barcode of the parking pass: ";
+        assertEquals(prompt + "The value of the barcode reader has been set to 123456789012\n", outContent.toString());
+        assertEquals("123456789012", reader.getID());
+    }
 
     @Test
     public void testGetID() {
@@ -44,6 +47,9 @@ public class IDReaderBarcodeTest {
 
         reader.setID("AGFHGJDJ");
         assertEquals("", reader.getID());
+
+        reader.setID("abc");
+        assertEquals("", reader.getID());
     }
 
     @Test
@@ -53,23 +59,23 @@ public class IDReaderBarcodeTest {
         assertEquals("", reader.getID());
     }
 
-    //TODO check tests below---------------
-//    @Test
-//    public void testRecordBarcodeIfCorrectFormatWithValidInput() {
-//        IDReaderBarcode reader = new IDReaderBarcode("");
-//        boolean result = reader.recordBarcodeIfCorrectFormat("123456789012");
-//        assertTrue(result);
-//        assertEquals("123456789012", reader.getID());
-//    }
-//
-//    @Test
-//    public void testRecordBarcodeIfCorrectFormatWithInvalidInput() {
-//        IDReaderBarcode reader = new IDReaderBarcode("");
-//        boolean result = reader.recordBarcodeIfCorrectFormat("123");
-//        assertFalse(result);
-//        assertEquals("", reader.getID());
-//        result = reader.recordBarcodeIfCorrectFormat("1234567890123");
-//        assertFalse(result);
-//        assertEquals("", reader.getID());
-//    }
+    @Test
+    public void testRecordBarcodeIfCorrectFormatWithValidInput() {
+        IDReaderBarcode reader = new IDReaderBarcode("");
+
+        assertTrue(reader.recordBarcodeIfCorrectFormat("123456789012"));
+        assertTrue(reader.recordBarcodeIfCorrectFormat("123456789333"));
+        assertTrue(reader.recordBarcodeIfCorrectFormat("123456789333"));
+        assertTrue(reader.recordBarcodeIfCorrectFormat("593028672917"));
+    }
+
+    @Test
+    public void testRecordBarcodeIfCorrectFormatWithInvalidInput() {
+        IDReaderBarcode reader = new IDReaderBarcode("");
+
+        assertFalse(reader.recordBarcodeIfCorrectFormat("chsdkljjrioeluu908"));
+        assertFalse(reader.recordBarcodeIfCorrectFormat("123"));
+        assertFalse(reader.recordBarcodeIfCorrectFormat("abc"));
+        assertFalse(reader.recordBarcodeIfCorrectFormat("1257897896772679674696"));
+    }
 }

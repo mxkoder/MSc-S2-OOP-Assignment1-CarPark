@@ -47,11 +47,11 @@ public class IDReaderRegistration extends IDReader {
         System.out.println("The registration reader has been reset to default and any previous recorded id has been cleared.");
     }
 
-    private boolean recordRegistrationIfCorrectFormat (String inputRegistration) {
+    public boolean recordRegistrationIfCorrectFormat (String inputRegistration) {
         String formatterRegNumber = capitalizeStringAndRemoveWhitespace(inputRegistration);
         if(formatterRegNumber.matches("[A-Z]{2}[0-9]{2}[A-Z]{3}$")) {
             this.regNumber = formatterRegNumber;
-            System.out.println("The value of the barcode reader has been set to " + regNumber);
+            System.out.println("The value of the registration reader has been set to " + regNumber);
             return true;
         }
         else {

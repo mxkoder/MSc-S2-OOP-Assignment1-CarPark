@@ -40,7 +40,7 @@ public class IDReaderBarcode extends IDReader {
         System.out.println("The barcode reader has been reset to default and any previous recorded id has been cleared.");
     }
 
-    private boolean recordBarcodeIfCorrectFormat (String inputBarcode) {
+    public boolean recordBarcodeIfCorrectFormat (String inputBarcode) {
         if (inputBarcode.matches("^\\d{12}$")) {
             this.barcodeID = inputBarcode;
             System.out.println("The value of the barcode reader has been set to " + barcodeID);
