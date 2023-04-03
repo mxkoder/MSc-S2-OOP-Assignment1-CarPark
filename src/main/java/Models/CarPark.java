@@ -10,7 +10,6 @@ public class CarPark implements Premises {
 
     public CarPark (Integer capacity) {
         this.capacity = capacity;
-        this.spacesAvailable = capacity;
     }
 
     public void setSpacesAvailable (Integer spacesAvailable) throws InvalidAvailabilityAndCapacityException {
