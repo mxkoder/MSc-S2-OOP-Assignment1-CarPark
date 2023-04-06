@@ -45,7 +45,7 @@ public class CarParkOperation {
             }
         }
 
-        resetAndUpdateCarParkDevices(entrySensor, barcodeReader, regReader, fullSign, carPark);
+        resetAndUpdateCarParkDevices(entrySensor, exitSensor, barcodeReader, regReader, fullSign, carPark);
 
         //---------------Poll exit and update car park--------------------------------------
 
@@ -70,14 +70,15 @@ public class CarParkOperation {
             }
         }
 
-        resetAndUpdateCarParkDevices(entrySensor, barcodeReader, regReader, fullSign, carPark);
+        resetAndUpdateCarParkDevices(entrySensor, exitSensor, barcodeReader, regReader, fullSign, carPark);
 
         printCarParkStatus(carsInCarPark, carPark, carMembers);
     };
 
-    public static void resetAndUpdateCarParkDevices(CarParkSensor entrySensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, FullSign fullSign, CarPark carPark) {
+    public static void resetAndUpdateCarParkDevices(CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, FullSign fullSign, CarPark carPark) {
         System.out.println("\n----------Resetting car park devices----------");
         entrySensor.setSensor(false);
+        exitSensor.setSensor(false);
         barcodeReader.resetToDefault();
         regReader.resetToDefault();
         fullSign.update(carPark.getSpacesAvailable());

@@ -60,17 +60,17 @@ public class CarIDReaderMenuTest {
 
     @Test
     public void testCheckIfIsCarParkMemberUsingReg () {
-        Cars mockCarMembers1 = mock(Cars.class);
-        when(mockCarMembers1.vehicleIsFoundByBarcode(anyString())).thenReturn(true);
-        assertTrue(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers1));
+        Cars mockCarMembers = mock(Cars.class);
+        when(mockCarMembers.vehicleIsFoundByBarcode(anyString())).thenReturn(true);
+        assertTrue(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers));
     }
 
     @Test
     public void testCheckIfIsCarParkMemberNotMember () {
-        Cars mockCarMembers1 = mock(Cars.class);
-        when(mockCarMembers1.vehicleIsFoundByBarcode(anyString())).thenReturn(false);
-        when(mockCarMembers1.vehicleIsFoundByReg(anyString())).thenReturn(false);
-        assertFalse(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers1));
+        Cars mockCarMembers = mock(Cars.class);
+        when(mockCarMembers.vehicleIsFoundByBarcode(anyString())).thenReturn(false);
+        when(mockCarMembers.vehicleIsFoundByReg(anyString())).thenReturn(false);
+        assertFalse(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers));
     }
 
 }
