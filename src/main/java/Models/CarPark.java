@@ -54,13 +54,7 @@ public class CarPark implements Premises {
         return this.spacesAvailable;
     };
 
-    // TODO optional can add method to increment/dec by more than one
-
     public Integer getCapacity() {
         return capacity;
     }
-
-
-
-
 }

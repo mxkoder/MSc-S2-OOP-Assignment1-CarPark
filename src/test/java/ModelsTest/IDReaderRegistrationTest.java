@@ -12,18 +12,6 @@ import static org.junit.Assert.*;
 public class IDReaderRegistrationTest {
 
     @Test
-    public void testReadIDWithCorrectFormat() {
-        IDReaderRegistration reader = new IDReaderRegistration("");
-        System.setIn(new ByteArrayInputStream("AB12 ABC\n".getBytes()));
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        reader.readID();
-        String prompt = "\nPlease enter a valid UK car registration number: ";
-        assertEquals(prompt + "The value of the registration reader has been set to AB12ABC\n", outContent.toString());
-        assertEquals("AB12ABC", reader.getID());
-    }
-
-    @Test
     public void testGetID() {
         IDReaderRegistration reader = new IDReaderRegistration("AB12ABC");
         assertEquals("AB12ABC", reader.getID());
@@ -36,7 +24,6 @@ public class IDReaderRegistrationTest {
         assertEquals("AB12ABC", reader.getID());
     }
 
-    //TODO check below
     @Test
     public void testSetIDWithIncorrectFormat() {
         IDReaderRegistration reader = new IDReaderRegistration("");

@@ -81,11 +81,9 @@ public class CarLogFileTest {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         carLogFile.recordDeparture(barcode, registration);
-        String expected = "OUT," + barcode + "," + registration + "," + timestamp;
         BufferedReader reader = new BufferedReader(new FileReader(carLogFileName));
         String actual = reader.readLine();
         reader.close();
-        //assertEquals(expected, actual);
         assert (actual.startsWith("OUT"));
 
         //Console output as expected:

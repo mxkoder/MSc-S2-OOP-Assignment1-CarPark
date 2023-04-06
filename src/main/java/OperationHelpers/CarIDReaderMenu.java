@@ -44,7 +44,7 @@ public class CarIDReaderMenu {
     }
 
     public static void getRegistrationForBarcodeAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
-        if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
+        if(checkIfIsCarParkMember(barcodeReader,regReader, carMembers)) {
             String registration = carMembers.getRegistrationByBarcode(barcodeReader.getID());
 
             System.out.println("We have retrieved the registration number " + registration + " from the car park members list for barcode " + barcodeReader.getID());
@@ -68,7 +68,7 @@ public class CarIDReaderMenu {
     }
 
     public static void getBarcodeForRegistrationAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
-        if(checkIfISCarParkMember(barcodeReader,regReader, carMembers)) {
+        if(checkIfIsCarParkMember(barcodeReader,regReader, carMembers)) {
             String barcode = carMembers.getBarcodeFromVehicleReg(regReader.getID());
 
             System.out.println("We have retrieved the barcode " + barcode + " from the car park members list for registration number " + regReader.getID());
@@ -90,7 +90,7 @@ public class CarIDReaderMenu {
         }
     }
 
-    public static boolean checkIfISCarParkMember (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
+    public static boolean checkIfIsCarParkMember (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
         if (carMembers.vehicleIsFoundByReg(regReader.getID()) || carMembers.vehicleIsFoundByBarcode(barcodeReader.getID())) {
             System.out.println("Confirmed as car park member.");
             return true;
