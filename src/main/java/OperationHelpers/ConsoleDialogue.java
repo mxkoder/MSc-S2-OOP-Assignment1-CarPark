@@ -1,13 +1,18 @@
 package OperationHelpers;
 
+import CarPark.CarPark;
+import Barriers.CarParkBarrier;
+import Sensors.CarParkSensor;
 import DataStorage.Cars;
 import FileHandling.CarLogFile;
 import FileHandling.MembersFile;
-import Models.*;
+import IDReaders.IDReaderBarcode;
+import IDReaders.IDReaderRegistration;
+import CarPark.FullSign;
 
 import java.util.Scanner;
 
-import static OperationHelpers.CarParkOperation.update;
+import static CarPark.CarParkOperation.update;
 
 public class ConsoleDialogue {
     private static Scanner stdin = new Scanner(System.in);

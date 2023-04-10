@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import FileHandling.MembersFile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,7 @@ import DataStorage.Cars;
 import FileHandling.CarLogFile;
 import Exceptions.IsFull;
 import Exceptions.RecordCannotBeAdded;
-import Models.CarPark;
+import CarPark.CarPark;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarLogFileTest {

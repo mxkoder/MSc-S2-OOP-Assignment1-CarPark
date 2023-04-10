@@ -1,19 +1,8 @@
 package DataStorageTest;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 
 import Exceptions.VehicleAtExitWasNotRecordedEntering;
-import FileHandling.MembersFile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import DataStorage.Cars;
 import FileHandling.CarLogFile;
-import Exceptions.IsFull;
 import Exceptions.RecordCannotBeAdded;
-import Models.CarPark;
+import CarPark.CarPark;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarsTest {

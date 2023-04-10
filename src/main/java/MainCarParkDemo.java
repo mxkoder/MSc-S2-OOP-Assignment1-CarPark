@@ -1,12 +1,17 @@
+import CarPark.CarPark;
+import Barriers.CarParkBarrier;
+import Sensors.CarParkSensor;
 import FileHandling.CarLogFile;
 import DataStorage.Cars;
 import FileHandling.MembersFile;
-import Models.*;
+import IDReaders.IDReaderBarcode;
+import IDReaders.IDReaderRegistration;
+import CarPark.FullSign;
+
 import java.util.Scanner;
 
-import static OperationHelpers.CarParkOperation.printCarParkStatus;
-import static OperationHelpers.CarParkOperation.update;
-import static InputOutput.NumericInputFromConsole.readIntFromConsoleWithPrompt;
+import static CarPark.CarParkOperation.printCarParkStatus;
+import static OperationHelpers.NumericInputFromConsole.readIntFromConsoleWithPrompt;
 import static OperationHelpers.ConsoleDialogue.operateCarParkUntilChooseSessionEnd;
 
 public class MainCarParkDemo {

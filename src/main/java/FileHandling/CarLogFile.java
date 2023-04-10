@@ -4,7 +4,7 @@ import DataStorage.Cars;
 import Exceptions.IsFull;
 import Exceptions.RecordCannotBeAdded;
 import Exceptions.VehicleAtExitWasNotRecordedEntering;
-import Models.CarPark;
+import CarPark.CarPark;
 
 import java.io.*;
 import java.sql.Timestamp;
