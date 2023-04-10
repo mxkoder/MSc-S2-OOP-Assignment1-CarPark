@@ -13,7 +13,16 @@ public class Cars implements Vehicles {
 
     private static Scanner stdin = new Scanner(System.in);
 
-    //TODO - optional - reformat and verify barcode and rg format within these methods as well?
+    /**
+     * Method to add a car to the data storage list
+     * <p>The data set can only hold unique values to make sure that e.g. a vehicle cannot enter be added if it is already in the
+     * car park, or already a member.</p>
+     * <p>The input parameter barcode and registration number are checked against the values in the Cars data storage first, and only added if they are not already
+     * in the dataset.</p>
+     * @param vehicleBarcode String - a 12 digit barcode value
+     * @param vehicleReg String - a standard UK vehicle registration
+     * @throws RecordCannotBeAdded - Is thrown if the Cars data storage already contains a record matching either of the values the user is attempting to add.
+     */
     @Override
     public void add(String vehicleBarcode, String vehicleReg) throws RecordCannotBeAdded {
         if (!vehicleIsFoundByBarcode(vehicleBarcode) && !vehicleIsFoundByReg(vehicleReg)) {
@@ -27,6 +36,13 @@ public class Cars implements Vehicles {
         }
     }
 
+    //TODO
+    /**
+     *
+     * @param vehicleBarcode String - a 12 digit barcode value
+     * @param vehicleReg String - a standard UK vehicle registration
+     * @throws VehicleAtExitWasNotRecordedEntering
+     */
     @Override
     public void remove(String vehicleBarcode, String vehicleReg) throws VehicleAtExitWasNotRecordedEntering {
         if (vehicleIsFoundByBarcode(vehicleBarcode) && vehicleIsFoundByReg(vehicleReg)) {

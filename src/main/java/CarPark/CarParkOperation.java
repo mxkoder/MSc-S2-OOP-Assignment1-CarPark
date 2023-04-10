@@ -22,7 +22,9 @@ public class CarParkOperation {
 
         if (carDetectedAtEntrance) {
 
-            //TODO add javadoc for this: reads barcode or reg number from console. Checks against members list. if present, gets matching ID. If not, reads in additional ID to sign up.
+            // The IDReaderMenu takes an input of the registration number or barcode using the Scanner class
+            // The car park members list is checked, and a matching barcode or reg number is found if it exists, otherwise that value is read in through the Scanner class
+            // The registration number and barcode are recorded in the IDReaderBarcode and IDReaderRegistration classes.
             while(IDReaderMenu(barcodeReader, regReader, carMembers, carMembersFile));
 
             if(carPark.getSpacesAvailable() > 0) {
@@ -56,6 +58,9 @@ public class CarParkOperation {
 
         if (carDetectedAtExit) {
 
+            // The IDReaderMenu takes an input of the registration number or barcode using the Scanner class
+            // The car park members list is checked, and a matching barcode or reg number is found if it exists, otherwise that value is read in through the Scanner class
+            // The registration number and barcode are recorded in the IDReaderBarcode and IDReaderRegistration classes.
             while(IDReaderMenu(barcodeReader, regReader, carMembers, carMembersFile));
 
             try {
@@ -78,6 +83,17 @@ public class CarParkOperation {
         printCarParkStatus(carsInCarPark, carPark, carMembers);
     };
 
+    /**
+     * Method to reset the car park devices to their default settings and to update the full sign
+     * <p>Barriers will be lowered, sensors will be set not detecting a vehicle, and IDReaders are set to default empty string starting values</p>
+     * <p>The full sign is updated to ON or OFF using the number of spaces available from the carPark input parameter.</p>
+     * @param entrySensor
+     * @param exitSensor
+     * @param barcodeReader
+     * @param regReader
+     * @param fullSign
+     * @param carPark
+     */
     public static void resetAndUpdateCarParkDevices(CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, FullSign fullSign, CarPark carPark) {
         System.out.println("\n----------Resetting car park devices----------");
         entrySensor.setSensor(false);
@@ -88,6 +104,13 @@ public class CarParkOperation {
         System.out.println("\n-----------------------------------------------");
     }
 
+    /**
+     * Method to print the status of the car park to the console.
+     * <p>The no. vehicles in the car park, spaces available, capacity, and number of car park members will be printed to the console. </p>
+     * @param carsInCarPark
+     * @param carPark
+     * @param carMembers
+     */
     public static void printCarParkStatus(Cars carsInCarPark, CarPark carPark, Cars carMembers) {
         System.out.println("\nAt the end of the update cycle, the car park status is: "
                 + "\n- Number of vehicles in car park: " + carsInCarPark.numberOfRecords()

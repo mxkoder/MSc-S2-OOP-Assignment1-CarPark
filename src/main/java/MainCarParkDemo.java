@@ -1,5 +1,6 @@
 import CarPark.CarPark;
 import Barriers.CarParkBarrier;
+import Exceptions.InvalidAvailabilityAndCapacityException;
 import Sensors.CarParkSensor;
 import FileHandling.CarLogFile;
 import DataStorage.Cars;
@@ -26,6 +27,13 @@ public class MainCarParkDemo {
 
         //Option 1: Start with an empty car park
         CarPark carPark = new CarPark(100);
+
+        try {
+            carPark.setSpacesAvailable(100);
+        }
+        catch (InvalidAvailabilityAndCapacityException e) {
+            e.printStackTrace();
+        }
 
         //Option 2: Start with a near full car park
 //        try {
