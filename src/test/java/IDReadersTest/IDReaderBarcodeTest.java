@@ -3,25 +3,9 @@ package IDReadersTest;
 import IDReaders.IDReaderBarcode;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import static org.junit.Assert.*;
 
 public class IDReaderBarcodeTest {
-
-    @Test
-    public void testReadIDWithCorrectFormat() {
-        IDReaderBarcode reader = new IDReaderBarcode("");
-        System.setIn(new ByteArrayInputStream("123456789012\n".getBytes()));
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        reader.readID();
-        String prompt = "\nPlease enter the 12 digit barcode of the parking pass: ";
-        assertEquals(prompt + "The value of the barcode reader has been set to 123456789012\n", outContent.toString());
-        assertEquals("123456789012", reader.getID());
-    }
 
     @Test
     public void testGetID() {

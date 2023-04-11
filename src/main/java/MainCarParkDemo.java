@@ -35,9 +35,10 @@ public class MainCarParkDemo {
             e.printStackTrace();
         }
 
-        //Option 2: Start with a near full car park
+//        //Option 2: Start with a near full car park
+//        CarPark carPark = new CarPark(6);
 //        try {
-//            carPark.setSpacesAvailable(2);
+//            carPark.setSpacesAvailable(5);
 //        }
 //        catch (InvalidAvailabilityAndCapacityException e) {
 //            e.printStackTrace();

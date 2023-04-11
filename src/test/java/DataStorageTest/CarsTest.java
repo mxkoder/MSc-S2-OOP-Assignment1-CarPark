@@ -20,11 +20,6 @@ public class CarsTest {
     @Mock
     private Cars mockCars;
 
-    @Mock
-    private CarPark mockCarPark;
-
-    private CarLogFile carLogFile;
-
     private String carLogFileName = "testCarLogFile.csv";
 
     @Before
