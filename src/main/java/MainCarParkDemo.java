@@ -49,7 +49,9 @@ public class MainCarParkDemo {
 
         //-------Setup data storage for cars in car park
         Cars carsInCarPark = new Cars();
-        //TODO if want to run file w some cars already in the car park, need to run a .populate here
+        ////Optional - uncomment line below to run Car Park with a starting populated hashtable of carsInCarPark
+        ////Note: will also need to have some records in the carLogFile.csv to populate the carsInCarPark with.
+        //carParkLogFile.populateHashFromFile(carsInCarPark, carPark);
 
         //-------Setup car park members list
         Cars carMembers = new Cars();
@@ -72,6 +74,13 @@ public class MainCarParkDemo {
         //************************************************************************************
         //-------Car Park Operation and Main Menu---------------------------------------------------------------
 
+        /**
+         * Main Car Park Menu
+         * <p>Gives users the options to perform standard car park operation (polling entrance and exit sensors and recording vehicle arrivals and departures),
+         * or additional functions</p>
+         * <p>The additional options include printing dynamic and static data storage contents to the console and printing the car park status to the console</p>
+         * <p>There is also the option to restore dynamic data storage of vehicles in the car park or car park members from the static data storage in the log files</p>
+         */
         boolean runMainMenu = true;
         while(runMainMenu) {
             int menuOption = readIntFromConsoleWithPrompt("\n----------Main Car Park Menu----------" +

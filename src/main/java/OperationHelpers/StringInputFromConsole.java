@@ -6,8 +6,7 @@ public class StringInputFromConsole {
     private static Scanner stdin = new Scanner(System.in);
 
     /**
-     * Generic method that takes in an input prompt (an instruction visible on the console). Generic function which can be used to
-     * take a String input from a user.
+     * Method read in a string from the user from the console using the Scanner class, with a provided input prompt
      * @param inputPrompt
      * @return String
      */
@@ -17,15 +16,14 @@ public class StringInputFromConsole {
     }
 
     /**
-     * Generic method capitalises an input string, removes white spaces, and returns the input string.
-     * returns the formatted input String
-     * @param string
-     * @return String
+     * Method to capitalise an input string and remove any white spaces from it.
+     * @param inputString
+     * @return formattedString - input string capitalised and with white spaces removed.
      */
-    public static String capitalizeStringAndRemoveWhitespace (String string) {
+    public static String capitaliseStringAndRemoveWhitespace (String inputString) {
 
-        string = string.toUpperCase().replaceAll("\\s","");
+        String formattedString = inputString.toUpperCase().replaceAll("\\s","");
 
-        return string;
+        return formattedString;
     }
 }

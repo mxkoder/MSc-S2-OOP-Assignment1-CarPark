@@ -15,6 +15,44 @@ import static IDReaders.CarIDReaderMenu.IDReaderMenu;
 import static OperationHelpers.ConsoleDialogue.pollCarParkSensor;
 
 public class CarParkOperation {
+
+    /**
+     * Method to update the car park with cars arriving and departing, based on information from sensors and IDReaders
+     * <p>The sensor and IDReader inputs are read in using keyboard input using the Scanner class as specified in the project brief</p>
+     *
+     * <h2>Car entering car park</h2>
+     * <p>The entrance sensor is polled, if no car is detected the method moves on to poll the exit sensors</p>
+     * <p> If a car is detected at the entrance, the barcode or registration are read in the IDReaderMenu. In the IDReaderMenu, the vehicle is checked
+     * against a list of car park members, using which a barcode can be found from registration number and visa versa.</p>
+     * <p>Next, if there are spaces available in the car park, an attempt is made to record the vehicle entering the car park. This is successful if the ID readers have
+     * recorded a registration and barcode numbers, and if the carsInCarPark data storage does not already have a vehicle with those details in the cars park.
+     * The barcode and registration are then also recorded in the logfile.
+     * The entry barrier is raised, the spaces available in the car park is decremented, the vehicle enters the car park, and the entry barrier is lowered</p>
+     * <p>If the car park if full or the if the RecordCannotBeAdded exception is thrown (likely due to there already being a vehicle with that barcode or registration
+     * in the car park), an error message is printed and the vehicle is not admitted to the car park</p>
+     * <p>The sensors, barriers, ID readers are reset and the full sign is updated</p>
+     *
+     * <h2>Vehicle exiting the car park</h2>
+     * <p>Similar process to a vehicle entering the car park, but using the exitSensor and exitBarrier instead.</p>
+     * <p>A difference is that when the attempt is made to remove the vehicle from the data storage of vehicles in the car park (carsInCarPark), a
+     * VehicleAtExitWasNotRecordedEntering exception is thrown if that vehicle is not found in the carsInCarPark data storage. </p>
+     * <p>Also, if the vehicle is successfully removed from carsInCarPark, the spaces available in the car park is incremented.</p>
+     *
+     * <h2>Status print at end</h2>
+     * <p>At the end of the entrance and exit update cycles, the status of the car park and it's devices is printed to the console.</p>
+     * @param carPark - Instance of CarPark with capacity and number of spaces available
+     * @param entrySensor
+     * @param exitSensor
+     * @param barcodeReader
+     * @param regReader
+     * @param carMembers - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
+     * @param carsInCarPark - Instance of Cars: dynamic data storage containing a hashtable of cars currently in the car park with their barcodes and registration numbers.
+     * @param entryBarrier
+     * @param exitBarrier
+     * @param fullSign
+     * @param carParkLogFile - Instance of CarLogFile - static data storage acting as a back-up log of the dynamic data storage of carsInCarPark.
+     * @param carMembersFile - Instance of MembersFile - static data storage acting as a back-up log of the dynamic data storage of carMembers.
+     */
     public static void update(CarPark carPark, CarParkSensor entrySensor, CarParkSensor exitSensor, IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, Cars carsInCarPark, CarParkBarrier entryBarrier, CarParkBarrier exitBarrier, FullSign fullSign, CarLogFile carParkLogFile, MembersFile carMembersFile) {
 
         //---------------Poll entrance and update car park--------------------------------------

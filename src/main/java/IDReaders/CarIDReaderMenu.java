@@ -9,6 +9,19 @@ import static OperationHelpers.NumericInputFromConsole.readIntFromConsoleWithPro
 public class CarIDReaderMenu {
 
     //TODO add javadoc for this: reads barcode or reg number from console. Checks against members list. if present, gets matching ID. If not, reads in additional ID to sign up.
+
+    /**
+     * Menu to record the barcode and registration from user input to the appropriate ID readers
+     * <p>The menu gives the option of reading in a barcode or a registration number. The barcode or registration number is then checked
+     * against a hashtable of car park members. If it is found, the matching barcode or registration is retrieved, if it is not found the missing
+     * barcode or registration is read in and the vehicle is 'signed up' and added to the car park members list.</p>
+     * <p>The method is designed to be called from while loop, so the user can exit the menu by selecting option 3 which returns a 'false' </p>
+     * @param barcodeReader
+     * @param regReader
+     * @param carMembers - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
+     * @param carMembersFile - Instance of MembersFile - static data storage acting as a back-up log of the dynamic data storage of carMembers.
+     * @return boolean - returns 'false' if the user chooses to exit the menu or records valid barcode and registration values. Returns 'true' otherwise.
+     */
     public static boolean IDReaderMenu(IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
         int menuOption = readIntFromConsoleWithPrompt("\n----------ID Reader Menu----------"+
                 "\nPlease choose an option: " +
@@ -16,7 +29,6 @@ public class CarIDReaderMenu {
                 "\n2) Read vehicle registration" +
                 "\n3) Exit to continue operating car park" +
                 "\n Please select an option: ");
-        //TODO - optional add in if statement to check if already recorded reg and barcode id?
 
         switch (menuOption) {
             case 1:
@@ -40,6 +52,19 @@ public class CarIDReaderMenu {
         return true;
     }
 
+
+    /**
+     * Method to retrieve the vehicle registration associated with the input barcode from the carMembers hashtable of car park members
+     *
+     * <p>If the vehicle is a car park member, the barcode is used to retrieve the associated registration from the hashtable of car park members</p>
+     *
+     * <p>If the vehicle is not a car park member, the vehicle is 'signed up' and a registration is read in using the regReader. If this is completed successfully,
+     * the barcode and registration for the vehicle are added to the hashtable of car park members.</p>
+     * @param barcodeReader
+     * @param regReader
+     * @param carMembers - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
+     * @param carMembersFile - Instance of MembersFile - static data storage acting as a back-up log of the dynamic data storage of carMembers.
+     */
     public static void getRegistrationForBarcodeAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
         if(checkIfIsCarParkMember(barcodeReader,regReader, carMembers)) {
             String registration = carMembers.getRegistrationByBarcode(barcodeReader.getID());
@@ -64,6 +89,18 @@ public class CarIDReaderMenu {
         }
     }
 
+    /**
+     * Method to retrieve the barcode associated with the input registration from the carMembers hashtable of car park members
+     *
+     * <p>If the vehicle is a car park member, the registration is used to retrieve the associated barcode from the hashtable of car park members</p>
+     *
+     * <p>If the vehicle is not a car park member, the vehicle is 'signed up' and a barcode is read in using the barcodeReader. If this is completed successfully,
+     * the barcode and registration for the vehicle are added to the hashtable of car park members.</p>
+     * @param barcodeReader
+     * @param regReader
+     * @param carMembers - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
+     * @param carMembersFile - Instance of MembersFile - static data storage acting as a back-up log of the dynamic data storage of carMembers.
+     */
     public static void getBarcodeForRegistrationAndAddMemberIfNotExists (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers, MembersFile carMembersFile) {
         if(checkIfIsCarParkMember(barcodeReader,regReader, carMembers)) {
             String barcode = carMembers.getBarcodeFromVehicleReg(regReader.getID());
@@ -87,6 +124,14 @@ public class CarIDReaderMenu {
         }
     }
 
+    /**
+     * Method to check if the barcode or registration recorded in the ID Readers are registered car park members
+     * <p>The registration and barcode are checked against the hashtable in carMembers which contains dynamic data storage of current car park members.</p>
+     * @param barcodeReader
+     * @param regReader
+     * @param carMembers - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
+     * @return boolean - returns true if the registration or barcode recorded in the ID readers belong to registered car park members as checked against the hashtable in carMembers
+     */
     public static boolean checkIfIsCarParkMember (IDReaderBarcode barcodeReader, IDReaderRegistration regReader, Cars carMembers) {
         if (carMembers.vehicleIsFoundByReg(regReader.getID()) || carMembers.vehicleIsFoundByBarcode(barcodeReader.getID())) {
             System.out.println("Confirmed as car park member.");
