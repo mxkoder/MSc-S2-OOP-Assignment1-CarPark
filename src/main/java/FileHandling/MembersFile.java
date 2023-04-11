@@ -16,6 +16,11 @@ public class MembersFile implements LogFile {
         this.membersFileName = membersFileName;
     }
 
+    /**
+     * Method to create a file which will be used for logging data
+     * <P>The file name will be the 'membersFileName' string which is assigned in the constructor. </P>
+     * <p>If the file already exists, a message will be printed to the console informing the user.</p>
+     */
     @Override
     public void createLogFile() {
         try {
@@ -38,6 +43,13 @@ public class MembersFile implements LogFile {
         return this.membersFileName;
     }
 
+    /**
+     * Method to record the addition of a car park member in the data logging file.
+     * <p>The method will record a comma seperated line in the file with the vehicle barcode and registration on one line.</p>
+     * <p>A confirmation message will be printed to the console indicating that the barcode - registration dataset pair was recorded in the logfile.</p>
+     * @param barcode String - a 12 digit barcode value
+     * @param registration String - a standard UK vehicle registration
+     */
     public void addMember(String barcode, String registration) {
 
         try
@@ -54,13 +66,13 @@ public class MembersFile implements LogFile {
         }
     }
 
-
-
+    /**
+     * Method to print the contents of the data logging file to the console
+     */
     @Override
     public void printFileToConsole() {
         System.out.println("\n ---------Printout of car park members list file with name: " + membersFileName + "---------");
 
-        //TODO - section below is repeated, refactor duplication?
         try {
             String line;
             BufferedReader reader = new BufferedReader(new FileReader(membersFileName));
@@ -75,8 +87,16 @@ public class MembersFile implements LogFile {
 
     }
 
-
-    public void populateHashFromFile(Cars dataStorageToRestore) {
+    /**
+     * Method to restore the dynamic data storage used for car park members from the information recorded in the data logging file
+     * <p>The method will add any barcode and registration string pairs recorded in the data logging file to the hashtable of car park
+     * member in the dataStorageToPopulate input parameter.</p>
+     * <p>The vehicle registration is mapped to uppercase when it is added to the car park members hashtable</p>
+     * <p>A confirmation message is printed to the console when the method is complete, in addition to the console message for each addition to the
+     * hashtable from the 'add' method. </p>
+     * @param dataStorageToPopulate - Instance of Cars, which contains the dynamic data storage of car park members which needs to be populated by the method
+     */
+    public void populateHashFromFile(Cars dataStorageToPopulate) {
 
         try {
             String line = "";
@@ -88,7 +108,7 @@ public class MembersFile implements LogFile {
 
                 if(elements.length >= 2) {
                     try {
-                        dataStorageToRestore.add(elements[0], elements[1].toUpperCase());
+                        dataStorageToPopulate.add(elements[0], elements[1].toUpperCase());
                     }
                     catch (RecordCannotBeAdded e) {
                         e.printStackTrace();
@@ -104,12 +124,24 @@ public class MembersFile implements LogFile {
         }
     }
 
+    /**
+     * Method is a variation of the populateHashFromFile, and includes an option for the user to clear the contents of the hashtable
+     * before populating it with data from the log file
+     * <p>This method can be used in the event of partial dynamic data loss, where the data in the log file may need to be used to replace any
+     * data that exists in the dynamic data storage hashtable.</p>
+     * @param dataStorageToRestore - Instance of Cars, which contains the dynamic data storage of car park members which needs to be populated by the method from the logfile
+     */
     public void restoreDataFromFile(Cars dataStorageToRestore) {
         checkIfWantToClearCurrentDataBeforeRestoringFromFile(dataStorageToRestore);
         populateHashFromFile(dataStorageToRestore);
     }
 
-    public static boolean checkIfWantToClearCurrentDataBeforeRestoringFromFile (Cars dataStorage) {
+    /**
+     * Method to be used within restoreDataFromFile to check if the user wants to delete the contents of the input parameter hashtable,
+     * and deletes the contents of the hashtable if they choose that option
+     * @param dataStorageToRestore - Instance of Cars, which contains the dynamic data storage to be cleared
+     */
+    public static boolean checkIfWantToClearCurrentDataBeforeRestoringFromFile (Cars dataStorageToRestore) {
         String choice;
 
         System.out.printf("Would you like to clear current data in the live record before restoring from the backup file? \n");
@@ -121,7 +153,7 @@ public class MembersFile implements LogFile {
             switch(choice){
                 case "y":
                     System.out.printf("You have chosen to clear the current live record before restoring from the back up file. \n");
-                    dataStorage.deleteAll();
+                    dataStorageToRestore.deleteAll();
                     return true;
                 case "n":
                     System.out.printf("You have chosen not clear the current live record of data before restoring from the back up file. \n");
@@ -132,7 +164,11 @@ public class MembersFile implements LogFile {
         }
     }
 
-    //TODO comments
+
+    /**
+     * ONLY FOR TEST - method to clear contents of log file
+     * Version of the clearFileContents method for testing purposes.
+     */
     public void clearFileContentsOnlyForTest() {
 
         try {

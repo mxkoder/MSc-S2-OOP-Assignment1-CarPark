@@ -23,6 +23,11 @@ public class CarLogFile implements LogFile {
         this.carLogFileName = carLogFileName;
     }
 
+    /**
+     * Method to create a file which will be used for logging data
+     * <P>The file name will be the 'carLogFileName' string which is assigned in the constructor. </P>
+     * <p>If the file already exists, a message will be printed to the console informing the user.</p>
+     */
     @Override
     public void createLogFile() {
         try {
@@ -45,11 +50,16 @@ public class CarLogFile implements LogFile {
         return this.carLogFileName;
     }
 
-    //TODO - make sure it can write to a CSV file
-    // TODO - add time stamps
+    /**
+     * Method to record the arrival of a vehicle at the car park in the data logging file.
+     * <p>The method will record a comma seperated line in the file with the text 'IN' to indicate the vehicle is arriving, the vehicle barcode, registration,
+     * and date timestamp</p>
+     * <p>A confirmation message will be printed to the console indicating that the barcode - registration dataset pair was recorded in the logfile.</p>
+     * @param barcode String - a 12 digit barcode value
+     * @param registration String - a standard UK vehicle registration
+     */
     public void recordArrival(String barcode, String registration) {
 
-        // TODO create file if not exist - or leave - will be caught by IO exception
         Date date = new Date();
 
         try
@@ -66,7 +76,14 @@ public class CarLogFile implements LogFile {
         }
     }
 
-    // TODO optional refactor combine the similar add and remove methods
+    /**
+     * Method to record the departure of a vehicle from the car park
+     * <p>The method will record a comma seperated line in the file with the text 'OUT' to indicate the vehicle is departing, the vehicle barcode, registration,
+     * and date timestamp on one line</p>
+     * <p>A confirmation message will be printed to the console indicating that the barcode - registration dataset pair was recorded in the logfile.</p>
+     * @param barcode String - a 12 digit barcode value
+     * @param registration String - a standard UK vehicle registration
+     */
     public void recordDeparture(String barcode, String registration) {
         Date date = new Date();
 
@@ -84,6 +101,9 @@ public class CarLogFile implements LogFile {
         }
     }
 
+    /**
+     * Method to print the contents of the data logging file to the console
+     */
     @Override
     public void printFileToConsole() {
         System.out.println("\n ---------Printout of car park log file with name: " + carLogFileName + "---------");
@@ -101,7 +121,20 @@ public class CarLogFile implements LogFile {
         }
     }
 
-    //TODO add docs - in, out - will end up with a restored live record, cars that have entered & then left not included, add that updates car park spaces available
+
+    /**
+     * Method to restore the dynamic data storage used by the car park from the information recorded in the data logging file
+     * <p>The method will add any barcode and registration string pairs recorded in the data logging file as having arrived,
+     * and remove any which are recorded as having departed. The result is that only vehicles still in the car park will be
+     * added to the input parameter dataStorageToPopulate.</p>
+     * <p>The method also updates the 'spacesAvailable' in the carPark, ensuring that after the hashtable has been restored
+     * the number of spaces available in the car park is accurate and the car park can continue operating. An isFull exception will be thrown if the spaces available
+     * becomes less than 0.</p>
+     * <p>A confirmation message is printed to the console when the method is complete, in addition to the console message for each addition to the
+     * hashtable from the 'add' method. </p
+     * @param dataStorageToPopulate - Instance of Cars, which contains the dynamic data storage which needs to be populated by the method
+     * @param carPark - Instance of CarPark, which is the relevant car park the data logging file is recording arrivals and departures for
+     */
     public void populateHashFromFile (Cars dataStorageToPopulate, CarPark carPark) {
 
         try {
@@ -148,11 +181,24 @@ public class CarLogFile implements LogFile {
         }
     }
 
+    /**
+     * Method is a variation of the populateHashFromFile, and includes an option for the user to clear the contents of the hashtable
+     * before populating it with data from the log file
+     * <p>This method can be used in the event of partial dynamic data loss, where the data in the log file may need to be used to replace any
+     * data that exists in the dynamic data storage hashtable.</p>
+     * @param dataStorageToRestore - Instance of Cars, which contains the dynamic data storage which needs to be populated by the method from the logfile
+     * @param carPark - Instance of CarPark, which is the relevant car park the data logging file is recording arrivals and departures for
+     */
     public void restoreDataFromFile(Cars dataStorageToRestore, CarPark carPark) {
         checkIfWantToClearCurrentDataBeforeRestoringFromFile(dataStorageToRestore);
         populateHashFromFile(dataStorageToRestore, carPark);
     }
 
+    /**
+     * Method to clear the contents of the logfile
+     * <p>Method has console dialogue asking user to confirm deletion, then clears the contents of the log file if the user chooses that option</p>
+     * @return boolean - Returns 'true' if the user has opted to clear the contents of the logfile, and 'false' otherwise
+     */
     public boolean clearFileContents() {
         String choice;
 
@@ -188,7 +234,10 @@ public class CarLogFile implements LogFile {
         }
     }
 
-    //TODO comments
+    /**
+     * ONLY FOR TEST - method to clear contents of log file
+     * Version of the clearFileContents method for testing purposes.
+     */
     public void clearFileContentsOnlyForTest() {
 
             try {
