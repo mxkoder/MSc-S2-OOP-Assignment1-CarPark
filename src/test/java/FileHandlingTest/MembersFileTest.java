@@ -74,7 +74,7 @@ public class MembersFileTest {
     }
 
     @Test
-    public void testPopulateHashFromFileMethodInvocations() throws IOException, RecordCannotBeAdded, IsFull {
+    public void testPopulateHashFromFileMethodInvocations() throws IOException, RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
         BufferedWriter writer = new BufferedWriter(new FileWriter(membersFilename, true));

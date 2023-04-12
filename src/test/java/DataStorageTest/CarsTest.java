@@ -10,9 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import DataStorage.Cars;
-import FileHandling.CarLogFile;
 import Exceptions.RecordCannotBeAdded;
-import CarPark.CarPark;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarsTest {
