@@ -1,7 +1,6 @@
 package CarParkTest;
 
 import CarPark.CarPark;
-import CarPark.CarParkOperation;
 import CarPark.FullSign;
 import Sensors.CarParkSensor;
 import IDReaders.IDReaderBarcode;

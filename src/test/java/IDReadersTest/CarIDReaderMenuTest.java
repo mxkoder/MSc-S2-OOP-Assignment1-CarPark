@@ -23,23 +23,10 @@ public class CarIDReaderMenuTest {
 
     @Mock
     private IDReaderRegistration mockRegReader;
-//
-//    @Mock
-//    private Cars mockCarMembers;
-//
-//    @Mock
-//    private MembersFile mockCarMembersFile;
-//
-////    @Mock
-////    private CarIDReaderMenu mockCarIDReaderMenu;
-//
     @Before
     public void setUp() {
         mockBarcodeReader = new IDReaderBarcode("");
         mockRegReader = new IDReaderRegistration("");
-//        mockCarMembers = new Cars();
-//        mockCarMembersFile = new MembersFile("test_CarIDReaderMenuFile");
-        //mockCarIDReaderMenu = new CarIDReaderMenu();
     }
 
     @Test
@@ -63,5 +50,4 @@ public class CarIDReaderMenuTest {
         when(mockCarMembers.vehicleIsFoundByReg(anyString())).thenReturn(false);
         assertFalse(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers));
     }
-
 }

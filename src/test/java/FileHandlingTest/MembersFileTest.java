@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import DataStorage.Cars;
-import Exceptions.IsFull;
 import Exceptions.RecordCannotBeAdded;
 
 @RunWith(MockitoJUnitRunner.class)

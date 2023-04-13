@@ -36,6 +36,4 @@ public class CarParkBarrierTest {
     public void testGetLocation() {
         assertEquals("test", barrier.getLocation());
     }
-
-
 }

@@ -113,5 +113,4 @@ public class CarLogFileTest {
         verify(mockCars, times(1)).add(barcode, registration);
         verify(mockCarPark, times(1)).decrementSpacesAvailable();
     }
-
 }

@@ -156,9 +156,5 @@ public class CarParkTest {
 
         mockCarPark.setCapacity(422);
         assertEquals(422, mockCarPark.getCapacity().intValue());
-
-
-
-
     }
 }

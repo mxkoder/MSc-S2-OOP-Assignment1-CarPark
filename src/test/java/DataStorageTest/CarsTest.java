@@ -18,8 +18,6 @@ public class CarsTest {
     @Mock
     private Cars mockCars;
 
-    private String carLogFileName = "testCarLogFile.csv";
-
     @Before
     public void setUp() {
         mockCars = new Cars();
@@ -101,7 +99,7 @@ public class CarsTest {
     }
 
     @Test
-    public void testRemoveThrowsException () throws VehicleAtExitWasNotRecordedEntering, RecordCannotBeAdded {
+    public void testRemoveThrowsException () throws RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
         String barcode1 = "111156789012";
