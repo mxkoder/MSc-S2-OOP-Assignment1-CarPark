@@ -24,7 +24,7 @@ public class CarsTest {
     }
 
     @Test
-    public void testAdd () throws RecordCannotBeAdded {
+    public void testAdd() throws RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
 
@@ -36,7 +36,7 @@ public class CarsTest {
     }
 
     @Test
-    public void testAddMultiple () throws RecordCannotBeAdded {
+    public void testAddMultiple() throws RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
         String barcode1 = "111156789012";
@@ -52,7 +52,7 @@ public class CarsTest {
     }
 
     @Test
-    public void testAddThrowsException () throws RecordCannotBeAdded {
+    public void testAddThrowsException() throws RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
         String barcode1 = "111156789012";
@@ -60,12 +60,14 @@ public class CarsTest {
 
         mockCars.add(barcode, registration);
 
-        assertThrows(RecordCannotBeAdded.class, ()-> {mockCars.add(barcode1, registration1);});
+        assertThrows(RecordCannotBeAdded.class, () -> {
+            mockCars.add(barcode1, registration1);
+        });
         assertEquals(Integer.valueOf(1), Integer.valueOf(mockCars.numberOfRecords()));
     }
 
     @Test
-    public void testRemove () throws VehicleAtExitWasNotRecordedEntering, RecordCannotBeAdded {
+    public void testRemove() throws VehicleAtExitWasNotRecordedEntering, RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
 
@@ -76,7 +78,7 @@ public class CarsTest {
     }
 
     @Test
-    public void testRemoveMultiple () throws VehicleAtExitWasNotRecordedEntering, RecordCannotBeAdded {
+    public void testRemoveMultiple() throws VehicleAtExitWasNotRecordedEntering, RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
         String barcode1 = "111156789012";
@@ -99,7 +101,7 @@ public class CarsTest {
     }
 
     @Test
-    public void testRemoveThrowsException () throws RecordCannotBeAdded {
+    public void testRemoveThrowsException() throws RecordCannotBeAdded {
         String barcode = "123456789012";
         String registration = "AB12ABC";
         String barcode1 = "111156789012";
@@ -107,7 +109,9 @@ public class CarsTest {
 
         mockCars.add(barcode, registration);
 
-        assertThrows(VehicleAtExitWasNotRecordedEntering.class, ()-> {mockCars.remove(barcode1, registration1);});
+        assertThrows(VehicleAtExitWasNotRecordedEntering.class, () -> {
+            mockCars.remove(barcode1, registration1);
+        });
         assertEquals(Integer.valueOf(1), Integer.valueOf(mockCars.numberOfRecords()));
     }
 

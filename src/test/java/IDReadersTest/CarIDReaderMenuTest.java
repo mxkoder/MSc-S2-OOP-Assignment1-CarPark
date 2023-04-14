@@ -23,6 +23,7 @@ public class CarIDReaderMenuTest {
 
     @Mock
     private IDReaderRegistration mockRegReader;
+
     @Before
     public void setUp() {
         mockBarcodeReader = new IDReaderBarcode("");
@@ -30,21 +31,21 @@ public class CarIDReaderMenuTest {
     }
 
     @Test
-    public void testCheckIfIsCarParkMemberUsingBarcode () {
+    public void testCheckIfIsCarParkMemberUsingBarcode() {
         Cars mockCarMembers1 = mock(Cars.class);
         when(mockCarMembers1.vehicleIsFoundByReg(anyString())).thenReturn(true);
         assertTrue(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers1));
     }
 
     @Test
-    public void testCheckIfIsCarParkMemberUsingReg () {
+    public void testCheckIfIsCarParkMemberUsingReg() {
         Cars mockCarMembers = mock(Cars.class);
         when(mockCarMembers.vehicleIsFoundByBarcode(anyString())).thenReturn(true);
         assertTrue(CarIDReaderMenu.checkIfIsCarParkMember(mockBarcodeReader, mockRegReader, mockCarMembers));
     }
 
     @Test
-    public void testCheckIfIsCarParkMemberNotMember () {
+    public void testCheckIfIsCarParkMemberNotMember() {
         Cars mockCarMembers = mock(Cars.class);
         when(mockCarMembers.vehicleIsFoundByBarcode(anyString())).thenReturn(false);
         when(mockCarMembers.vehicleIsFoundByReg(anyString())).thenReturn(false);

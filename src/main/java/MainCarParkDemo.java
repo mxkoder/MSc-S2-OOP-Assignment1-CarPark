@@ -18,6 +18,7 @@ import static OperationHelpers.ConsoleDialogue.operateCarParkUntilChooseSessionE
 public class MainCarParkDemo {
 
     private static Scanner stdin = new Scanner(System.in);
+
     public static void main(String[] args) {
 
         //************************************************************************************
@@ -30,8 +31,7 @@ public class MainCarParkDemo {
 
         try {
             carPark.setSpacesAvailable(100);
-        }
-        catch (InvalidAvailabilityAndCapacityException e) {
+        } catch (InvalidAvailabilityAndCapacityException e) {
             e.printStackTrace();
         }
 
@@ -83,7 +83,7 @@ public class MainCarParkDemo {
          * <p>There is also the option to restore dynamic data storage of vehicles in the car park or car park members from the static data storage in the log files</p>
          */
         boolean runMainMenu = true;
-        while(runMainMenu) {
+        while (runMainMenu) {
             int menuOption = readIntFromConsoleWithPrompt("\n----------Main Car Park Menu----------" +
                     "\nPlease choose an option: " +
                     "\n\nPrimary project function:" +
@@ -102,7 +102,8 @@ public class MainCarParkDemo {
             switch (menuOption) {
                 case 1:
                     // Core method which updates the car park, taking in input for the sensors and ID readers from the console
-                    while(operateCarParkUntilChooseSessionEnd(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile, carMembersFile));
+                    while (operateCarParkUntilChooseSessionEnd(carPark, entrySensor, exitSensor, barcodeReader, regReader, carMembers, carsInCarPark, entryBarrier, exitBarrier, fullSign, carParkLogFile, carMembersFile))
+                        ;
 
                     break;
                 case 2:

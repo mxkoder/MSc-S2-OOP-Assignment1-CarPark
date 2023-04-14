@@ -35,20 +35,21 @@ public class IDReaderBarcode extends IDReader {
      * <P>The method takes a 12 digit barcode as a string input parameter. If the barcode has the correct format (12 single digits) the value is
      * recorded in the barcode reader using the recordBarcodeIfCorrectFormat method</P>
      * <p>If the barcode is not in the correct format, a message is printed to the console to state that the barcode format was incorrect</p>
+     *
      * @param barcodeID String - 12 digit barcode ID
      */
     @Override
     public void setID(String barcodeID) {
         boolean barcodeRecorded = recordBarcodeIfCorrectFormat(barcodeID);
 
-        if(!barcodeRecorded) {
+        if (!barcodeRecorded) {
             System.out.println("Invalid barcode format, barcode should be 12 digits.");
         }
     }
 
     @Override
     public void resetToDefault() {
-        this.barcodeID ="";
+        this.barcodeID = "";
         System.out.println("The barcode reader has been reset to default and any previous recorded id has been cleared.");
     }
 
@@ -57,10 +58,11 @@ public class IDReaderBarcode extends IDReader {
      * <p>The barcode is checked against a regex matcher, if it consists of 12 digits it is recorded as the barcodeID in the barcode reader
      * and a confirmation message is printed to the console.
      * If there is no match with the regex, a boolean false is returned and the ID is not recorded in the reader</p>
+     *
      * @param inputBarcode String - 12 digit barcode ID
      * @return Boolean - returns 'true' if the ID is recorded in the reader, and 'false' if the ID is not recorded
      */
-    public boolean recordBarcodeIfCorrectFormat (String inputBarcode) {
+    public boolean recordBarcodeIfCorrectFormat(String inputBarcode) {
         if (inputBarcode.matches("^\\d{12}$")) {
             this.barcodeID = inputBarcode;
             System.out.println("The value of the barcode reader has been set to " + barcodeID);

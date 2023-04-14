@@ -11,6 +11,7 @@ public class CarParkBarrier extends Barrier {
      * Constructor for CarParkBarrier
      * <p>The default initial status of the barrier is lowered (barrierStatus = 0)</p>
      * <p>Setting the location of the barrier as a string will allow it to be identified as e.g an 'exit' or 'entrance' barrier</p>
+     *
      * @param barrierLocation String identifying the location of the barrier, eg 'exit' or 'entrance'
      */
     public CarParkBarrier(String barrierLocation) {

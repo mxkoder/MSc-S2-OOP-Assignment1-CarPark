@@ -22,7 +22,7 @@ public class IDReaderRegistration extends IDReader {
     public void readID() {
         String inputRegNumber = "";
 
-        while(!recordRegistrationIfCorrectFormat(inputRegNumber)) {
+        while (!recordRegistrationIfCorrectFormat(inputRegNumber)) {
             inputRegNumber = enterValueForStringWithPrompt("Please enter a valid UK car registration number: ");
         }
     }
@@ -39,13 +39,14 @@ public class IDReaderRegistration extends IDReader {
      * and white spaces are removed in the recordRegistrationIfCorrectFormat method. </p>
      * <p>If the registration then has the correct format (@@##@@@) the value is recorded in the registration reader using the recordRegistrationIfCorrectFormat method</p>
      * <p>If the registration is not in the correct format, a message is printed to the console to state that the registration format was incorrect</p>
+     *
      * @param registrationID String - Standard UK car registration number
      */
     @Override
     public void setID(String registrationID) {
         boolean registrationRecorded = recordRegistrationIfCorrectFormat(registrationID);
 
-        if(!registrationRecorded) {
+        if (!registrationRecorded) {
             System.out.println("Invalid registration format, please make sure it is in the standard UK for of @@##@@@");
         }
     }
@@ -62,17 +63,17 @@ public class IDReaderRegistration extends IDReader {
      * <p>The registration is checked against a regex matcher, if it is in the format @@##@@@ it is recorded as the regNumber in the registration reader
      * and a confirmation message is printed to the console.
      * If there is no match with the regex, a boolean false is returned and the ID is not recorded in the reader</p>
+     *
      * @param inputRegistration String - Standard UK car registration number
      * @return Boolean - returns 'true' if the ID is recorded in the reader, and 'false' if the ID is not recorded
      */
-    public boolean recordRegistrationIfCorrectFormat (String inputRegistration) {
+    public boolean recordRegistrationIfCorrectFormat(String inputRegistration) {
         String formatterRegNumber = capitaliseStringAndRemoveWhitespace(inputRegistration);
-        if(formatterRegNumber.matches("[A-Z]{2}[0-9]{2}[A-Z]{3}$")) {
+        if (formatterRegNumber.matches("[A-Z]{2}[0-9]{2}[A-Z]{3}$")) {
             this.regNumber = formatterRegNumber;
             System.out.println("The value of the registration reader has been set to " + regNumber);
             return true;
-        }
-        else {
+        } else {
             System.out.println();
             return false;
         }

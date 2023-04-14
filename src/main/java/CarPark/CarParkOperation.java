@@ -40,13 +40,14 @@ public class CarParkOperation {
      *
      * <h2>Status print at end</h2>
      * <p>At the end of the entrance and exit update cycles, the status of the car park and it's devices is printed to the console.</p>
-     * @param carPark - Instance of CarPark with capacity and number of spaces available
+     *
+     * @param carPark        - Instance of CarPark with capacity and number of spaces available
      * @param entrySensor
      * @param exitSensor
      * @param barcodeReader
      * @param regReader
-     * @param carMembers - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
-     * @param carsInCarPark - Instance of Cars: dynamic data storage containing a hashtable of cars currently in the car park with their barcodes and registration numbers.
+     * @param carMembers     - Instance of Cars: dynamic data storage containing a hashtable of car park members with their barcodes and registration numbers.
+     * @param carsInCarPark  - Instance of Cars: dynamic data storage containing a hashtable of cars currently in the car park with their barcodes and registration numbers.
      * @param entryBarrier
      * @param exitBarrier
      * @param fullSign
@@ -63,9 +64,9 @@ public class CarParkOperation {
             // The IDReaderMenu takes an input of the registration number or barcode using the Scanner class
             // The car park members list is checked, and a matching barcode or reg number is found if it exists, otherwise that value is read in through the Scanner class
             // The registration number and barcode are recorded in the IDReaderBarcode and IDReaderRegistration classes.
-            while(IDReaderMenu(barcodeReader, regReader, carMembers, carMembersFile));
+            while (IDReaderMenu(barcodeReader, regReader, carMembers, carMembersFile)) ;
 
-            if(carPark.getSpacesAvailable() > 0) {
+            if (carPark.getSpacesAvailable() > 0) {
 
                 try {
                     System.out.println("\nCar park " + entrySensor.getSensorLocation() + " update:");
@@ -81,8 +82,7 @@ public class CarParkOperation {
                     e.printStackTrace();
                 }
 
-            }
-            else {
+            } else {
                 fullSign.update(carPark.getSpacesAvailable());
                 System.out.println("Could not admit vehicle to car park" + "----->>CAR PARK IS FULL, please come back later.");
             }
@@ -99,7 +99,7 @@ public class CarParkOperation {
             // The IDReaderMenu takes an input of the registration number or barcode using the Scanner class
             // The car park members list is checked, and a matching barcode or reg number is found if it exists, otherwise that value is read in through the Scanner class
             // The registration number and barcode are recorded in the IDReaderBarcode and IDReaderRegistration classes.
-            while(IDReaderMenu(barcodeReader, regReader, carMembers, carMembersFile));
+            while (IDReaderMenu(barcodeReader, regReader, carMembers, carMembersFile)) ;
 
             try {
                 System.out.println("\nCar park " + exitSensor.getSensorLocation() + " update:");
@@ -110,8 +110,7 @@ public class CarParkOperation {
                 carPark.incrementSpacesAvailable();
                 System.out.println("Vehicle leaves car park.");
                 exitBarrier.lower();
-            }
-            catch (VehicleAtExitWasNotRecordedEntering e) {
+            } catch (VehicleAtExitWasNotRecordedEntering e) {
                 e.printStackTrace();
             }
         }
@@ -119,12 +118,15 @@ public class CarParkOperation {
         resetAndUpdateCarParkDevices(entrySensor, exitSensor, barcodeReader, regReader, fullSign, carPark);
 
         printCarParkStatus(carsInCarPark, carPark, carMembers);
-    };
+    }
+
+    ;
 
     /**
      * Method to reset the car park devices to their default settings and to update the full sign
      * <p>Barriers will be lowered, sensors will be set not detecting a vehicle, and IDReaders are set to default empty string starting values</p>
      * <p>The full sign is updated to ON or OFF using the number of spaces available from the carPark input parameter.</p>
+     *
      * @param entrySensor
      * @param exitSensor
      * @param barcodeReader
@@ -145,6 +147,7 @@ public class CarParkOperation {
     /**
      * Method to print the status of the car park to the console.
      * <p>The no. vehicles in the car park, spaces available, capacity, and number of car park members will be printed to the console. </p>
+     *
      * @param carsInCarPark
      * @param carPark
      * @param carMembers

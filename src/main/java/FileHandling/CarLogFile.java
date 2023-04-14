@@ -33,11 +33,9 @@ public class CarLogFile implements LogFile {
         try {
             File myfile = new File(carLogFileName);
 
-            if(myfile.createNewFile())
-            {
+            if (myfile.createNewFile()) {
                 System.out.println("A file was created to keep a log of cars in the car park, with filename: " + carLogFileName);
-            }
-            else {
+            } else {
                 System.out.println("A log file for cars in the car park already exists with name " + carLogFileName);
             }
         } catch (IOException e) {
@@ -55,23 +53,22 @@ public class CarLogFile implements LogFile {
      * <p>The method will record a comma seperated line in the file with the text 'IN' to indicate the vehicle is arriving, the vehicle barcode, registration,
      * and date timestamp</p>
      * <p>A confirmation message will be printed to the console indicating that the barcode - registration dataset pair was recorded in the logfile.</p>
-     * @param barcode String - a 12 digit barcode value
+     *
+     * @param barcode      String - a 12 digit barcode value
      * @param registration String - a standard UK vehicle registration
      */
     public void recordArrival(String barcode, String registration) {
 
         Date date = new Date();
 
-        try
-        {
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(carLogFileName, true));
             writer.append("IN" + "," + barcode + "," + registration + "," + new Timestamp(date.getTime()));
             writer.append("\n");
             writer.close();
 
             System.out.println("Arrival of vehicle was recorded in the log file with barcode: " + barcode + " and registration: " + registration);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -81,22 +78,21 @@ public class CarLogFile implements LogFile {
      * <p>The method will record a comma seperated line in the file with the text 'OUT' to indicate the vehicle is departing, the vehicle barcode, registration,
      * and date timestamp on one line</p>
      * <p>A confirmation message will be printed to the console indicating that the barcode - registration dataset pair was recorded in the logfile.</p>
-     * @param barcode String - a 12 digit barcode value
+     *
+     * @param barcode      String - a 12 digit barcode value
      * @param registration String - a standard UK vehicle registration
      */
     public void recordDeparture(String barcode, String registration) {
         Date date = new Date();
 
-        try
-        {
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(carLogFileName, true));
             writer.append("OUT" + "," + barcode + "," + registration + "," + new Timestamp(date.getTime()));
             writer.append("\n");
             writer.close();
 
             System.out.println("Departure of vehicle was recorded in the log file with barcode: " + barcode + " and registration: " + registration);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -115,8 +111,7 @@ public class CarLogFile implements LogFile {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -132,10 +127,11 @@ public class CarLogFile implements LogFile {
      * becomes less than 0.</p>
      * <p>A confirmation message is printed to the console when the method is complete, in addition to the console message for each addition to the
      * hashtable from the 'add' method. </p
+     *
      * @param dataStorageToPopulate - Instance of Cars, which contains the dynamic data storage which needs to be populated by the method
-     * @param carPark - Instance of CarPark, which is the relevant car park the data logging file is recording arrivals and departures for
+     * @param carPark               - Instance of CarPark, which is the relevant car park the data logging file is recording arrivals and departures for
      */
-    public void populateHashFromFile (Cars dataStorageToPopulate, CarPark carPark) {
+    public void populateHashFromFile(Cars dataStorageToPopulate, CarPark carPark) {
 
         try {
             String line = "";
@@ -145,29 +141,25 @@ public class CarLogFile implements LogFile {
 
                 String[] elements = line.split(",");
 
-                if(elements.length > 0) {
+                if (elements.length > 0) {
 
-                    if(elements[0].equals("IN")) {
+                    if (elements[0].equals("IN")) {
                         try {
                             dataStorageToPopulate.add(elements[1], elements[2]);
                             carPark.decrementSpacesAvailable();
-                        }
-                        catch (RecordCannotBeAdded | IsFull e) {
+                        } catch (RecordCannotBeAdded | IsFull e) {
                             e.printStackTrace();
                         }
 
-                    }
-                    else if (elements[0].equals("OUT")) {
+                    } else if (elements[0].equals("OUT")) {
                         try {
                             dataStorageToPopulate.remove(elements[1], elements[2]);
                             carPark.incrementSpacesAvailable();
-                        }
-                        catch (VehicleAtExitWasNotRecordedEntering e) {
+                        } catch (VehicleAtExitWasNotRecordedEntering e) {
                             e.printStackTrace();
                         }
 
-                    }
-                    else {
+                    } else {
                         System.out.println("Invalid record in log file.");
                     }
                 }
@@ -175,8 +167,7 @@ public class CarLogFile implements LogFile {
             System.out.println("The file " + carLogFileName + " was used to populate the hashtable, adding only unique barcodes and registration numbers.");
 
             reader.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -186,8 +177,9 @@ public class CarLogFile implements LogFile {
      * before populating it with data from the log file
      * <p>This method can be used in the event of partial dynamic data loss, where the data in the log file may need to be used to replace any
      * data that exists in the dynamic data storage hashtable.</p>
+     *
      * @param dataStorageToRestore - Instance of Cars, which contains the dynamic data storage which needs to be populated by the method from the logfile
-     * @param carPark - Instance of CarPark, which is the relevant car park the data logging file is recording arrivals and departures for
+     * @param carPark              - Instance of CarPark, which is the relevant car park the data logging file is recording arrivals and departures for
      */
     public void restoreDataFromFile(Cars dataStorageToRestore, CarPark carPark) {
         checkIfWantToClearCurrentDataBeforeRestoringFromFile(dataStorageToRestore);
@@ -197,6 +189,7 @@ public class CarLogFile implements LogFile {
     /**
      * Method to clear the contents of the logfile
      * <p>Method has console dialogue asking user to confirm deletion, then clears the contents of the log file if the user chooses that option</p>
+     *
      * @return boolean - Returns 'true' if the user has opted to clear the contents of the logfile, and 'false' otherwise
      */
     public boolean clearFileContents() {
@@ -204,11 +197,11 @@ public class CarLogFile implements LogFile {
 
         System.out.printf("You are choosing to clear the contents of log file: " + carLogFileName + " would you like to proceed?\n");
 
-        while(true){
+        while (true) {
             System.out.printf("Please enter y or n: \n");
             choice = stdin.nextLine().toLowerCase();
 
-            switch(choice){
+            switch (choice) {
                 case "y":
                     System.out.printf("You have chosen clear the contents of the log file. \n");
 
@@ -219,8 +212,7 @@ public class CarLogFile implements LogFile {
 
                         fileWriter.write("");
                         fileWriter.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
 
@@ -240,17 +232,16 @@ public class CarLogFile implements LogFile {
      */
     public void clearFileContentsOnlyForTest() {
 
-            try {
-                File file = new File(carLogFileName);
+        try {
+            File file = new File(carLogFileName);
 
-                FileWriter fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(file);
 
-                fileWriter.write("");
-                fileWriter.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

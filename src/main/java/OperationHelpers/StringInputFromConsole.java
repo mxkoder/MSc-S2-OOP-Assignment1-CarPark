@@ -7,6 +7,7 @@ public class StringInputFromConsole {
 
     /**
      * Method read in a string from the user from the console using the Scanner class, with a provided input prompt
+     *
      * @param inputPrompt
      * @return String
      */
@@ -17,12 +18,13 @@ public class StringInputFromConsole {
 
     /**
      * Method to capitalise an input string and remove any white spaces from it.
+     *
      * @param inputString
      * @return formattedString - input string capitalised and with white spaces removed.
      */
-    public static String capitaliseStringAndRemoveWhitespace (String inputString) {
+    public static String capitaliseStringAndRemoveWhitespace(String inputString) {
 
-        String formattedString = inputString.toUpperCase().replaceAll("\\s","");
+        String formattedString = inputString.toUpperCase().replaceAll("\\s", "");
 
         return formattedString;
     }

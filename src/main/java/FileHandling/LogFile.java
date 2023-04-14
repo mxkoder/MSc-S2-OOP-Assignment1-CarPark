@@ -2,9 +2,9 @@ package FileHandling;
 
 public interface LogFile {
 
-    void createLogFile ();
+    void createLogFile();
 
-    String getFileName ();
+    String getFileName();
 
-    void printFileToConsole ();
+    void printFileToConsole();
 }

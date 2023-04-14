@@ -26,11 +26,9 @@ public class MembersFile implements LogFile {
         try {
             File myfile = new File(membersFileName);
 
-            if(myfile.createNewFile())
-            {
+            if (myfile.createNewFile()) {
                 System.out.println("A file was created to keep track of car park members, with filename: " + membersFileName);
-            }
-            else {
+            } else {
                 System.out.println("A car park members list file already exists with name " + membersFileName);
             }
         } catch (IOException e) {
@@ -47,21 +45,20 @@ public class MembersFile implements LogFile {
      * Method to record the addition of a car park member in the data logging file.
      * <p>The method will record a comma seperated line in the file with the vehicle barcode and registration on one line.</p>
      * <p>A confirmation message will be printed to the console indicating that the barcode - registration dataset pair was recorded in the logfile.</p>
-     * @param barcode String - a 12 digit barcode value
+     *
+     * @param barcode      String - a 12 digit barcode value
      * @param registration String - a standard UK vehicle registration
      */
     public void addMember(String barcode, String registration) {
 
-        try
-        {
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(membersFileName, true));
             writer.append(barcode + "," + registration);
             writer.append("\n");
             writer.close();
 
             System.out.println("New member was added to the Member's file with barcode: " + barcode + " and registration: " + registration);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -80,8 +77,7 @@ public class MembersFile implements LogFile {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -94,6 +90,7 @@ public class MembersFile implements LogFile {
      * <p>The vehicle registration is mapped to uppercase when it is added to the car park members hashtable</p>
      * <p>A confirmation message is printed to the console when the method is complete, in addition to the console message for each addition to the
      * hashtable from the 'add' method. </p>
+     *
      * @param dataStorageToPopulate - Instance of Cars, which contains the dynamic data storage of car park members which needs to be populated by the method
      */
     public void populateHashFromFile(Cars dataStorageToPopulate) {
@@ -106,11 +103,10 @@ public class MembersFile implements LogFile {
 
                 String[] elements = line.split(",");
 
-                if(elements.length >= 2) {
+                if (elements.length >= 2) {
                     try {
                         dataStorageToPopulate.add(elements[0], elements[1].toUpperCase());
-                    }
-                    catch (RecordCannotBeAdded e) {
+                    } catch (RecordCannotBeAdded e) {
                         e.printStackTrace();
                     }
                 }
@@ -118,8 +114,7 @@ public class MembersFile implements LogFile {
             System.out.println("The file " + membersFileName + " was used to populate the hashtable. Only members not already in the live list of members will be added.");
 
             reader.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -129,6 +124,7 @@ public class MembersFile implements LogFile {
      * before populating it with data from the log file
      * <p>This method can be used in the event of partial dynamic data loss, where the data in the log file may need to be used to replace any
      * data that exists in the dynamic data storage hashtable.</p>
+     *
      * @param dataStorageToRestore - Instance of Cars, which contains the dynamic data storage of car park members which needs to be populated by the method from the logfile
      */
     public void restoreDataFromFile(Cars dataStorageToRestore) {
@@ -139,18 +135,19 @@ public class MembersFile implements LogFile {
     /**
      * Method to be used within restoreDataFromFile to check if the user wants to delete the contents of the input parameter hashtable,
      * and deletes the contents of the hashtable if they choose that option
+     *
      * @param dataStorageToRestore - Instance of Cars, which contains the dynamic data storage to be cleared
      */
-    public static boolean checkIfWantToClearCurrentDataBeforeRestoringFromFile (Cars dataStorageToRestore) {
+    public static boolean checkIfWantToClearCurrentDataBeforeRestoringFromFile(Cars dataStorageToRestore) {
         String choice;
 
         System.out.printf("Would you like to clear current data in the live record before restoring from the backup file? \n");
 
-        while(true){
+        while (true) {
             System.out.printf("Please enter y or n: \n");
             choice = stdin.nextLine().toLowerCase();
 
-            switch(choice){
+            switch (choice) {
                 case "y":
                     System.out.printf("You have chosen to clear the current live record before restoring from the back up file. \n");
                     dataStorageToRestore.deleteAll();
@@ -178,8 +175,7 @@ public class MembersFile implements LogFile {
 
             fileWriter.write("");
             fileWriter.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

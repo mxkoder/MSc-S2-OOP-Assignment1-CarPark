@@ -42,10 +42,18 @@ public class CarParkTest {
 
     @Test
     public void testSetSpacesAvailableThrowsException() {
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setSpacesAvailable(110);});
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setSpacesAvailable(150);});
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setSpacesAvailable(200);});
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setSpacesAvailable(1110);});
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setSpacesAvailable(110);
+        });
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setSpacesAvailable(150);
+        });
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setSpacesAvailable(200);
+        });
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setSpacesAvailable(1110);
+        });
     }
 
     @Test
@@ -68,19 +76,27 @@ public class CarParkTest {
     @Test
     public void testSetCapacityThrowsException() throws InvalidAvailabilityAndCapacityException {
         mockCarPark.setSpacesAvailable(10);
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setCapacity(9);});
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setCapacity(9);
+        });
 
         mockCarPark.setSpacesAvailable(50);
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setCapacity(1);});
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setCapacity(1);
+        });
 
         mockCarPark.setSpacesAvailable(10);
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setCapacity(-9);});
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setCapacity(-9);
+        });
 
         mockCarPark.setSpacesAvailable(99);
-        assertThrows(InvalidAvailabilityAndCapacityException.class, ()-> {mockCarPark.setCapacity(98);});
+        assertThrows(InvalidAvailabilityAndCapacityException.class, () -> {
+            mockCarPark.setCapacity(98);
+        });
     }
 
-    public void testIncrementSpacesAvailable() throws InvalidAvailabilityAndCapacityException{
+    public void testIncrementSpacesAvailable() throws InvalidAvailabilityAndCapacityException {
         mockCarPark.setSpacesAvailable(99);
 
         mockCarPark.incrementSpacesAvailable();
@@ -93,7 +109,7 @@ public class CarParkTest {
         assertEquals(53, mockCarPark.getSpacesAvailable());
     }
 
-    public void testIncrementSpacesAvailableExceedsCapacity() throws InvalidAvailabilityAndCapacityException{
+    public void testIncrementSpacesAvailableExceedsCapacity() throws InvalidAvailabilityAndCapacityException {
 
         mockCarPark.setSpacesAvailable(50);
 
@@ -107,7 +123,7 @@ public class CarParkTest {
         assertEquals(100, mockCarPark.getSpacesAvailable());
     }
 
-    public void testDecrementSpacesAvailable() throws InvalidAvailabilityAndCapacityException, IsFull{
+    public void testDecrementSpacesAvailable() throws InvalidAvailabilityAndCapacityException, IsFull {
 
         mockCarPark.setSpacesAvailable(50);
 
@@ -125,7 +141,9 @@ public class CarParkTest {
     public void testDecrementSpacesAvailableThrowsIsFullException() throws InvalidAvailabilityAndCapacityException {
 
         mockCarPark.setSpacesAvailable(0);
-        assertThrows(IsFull.class, ()-> {mockCarPark.decrementSpacesAvailable();});
+        assertThrows(IsFull.class, () -> {
+            mockCarPark.decrementSpacesAvailable();
+        });
     }
 
     public void testGetSpacesAvailable() throws InvalidAvailabilityAndCapacityException {

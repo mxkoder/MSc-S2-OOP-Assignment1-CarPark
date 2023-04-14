@@ -1,4 +1,5 @@
 package BarriersTest;
+
 import Barriers.CarParkBarrier;
 
 import static org.junit.jupiter.api.Assertions.*;
