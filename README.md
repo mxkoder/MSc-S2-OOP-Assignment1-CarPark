@@ -22,6 +22,9 @@ The unit tests can be run from src/test/java .
 
 ## Operating the program
 
+A demonstration of the program running is available in this video:
+[Program demo video](https://uowtsd-my.sharepoint.com/:v:/g/personal/2222151_student_uwtsd_ac_uk/EXyDYnp3-MZBqnCRMDjM0RgBZ2UauT2gQcF_aI9zdfXPpQ?e=t7Ly3y)
+
 When the Car Park program is run, the user will be presented with a selection of options in the Main Menu:
 
     ----------Main Car Park Menu----------

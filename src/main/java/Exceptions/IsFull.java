@@ -5,4 +5,3 @@ public class IsFull extends Exception {
         super(errorMessage);
     }
 }
-
