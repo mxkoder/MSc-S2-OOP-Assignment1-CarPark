@@ -7,5 +7,4 @@ public interface LogFile {
     String getFileName ();
 
     void printFileToConsole ();
-
 }

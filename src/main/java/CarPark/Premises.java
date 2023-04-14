@@ -8,8 +8,4 @@ interface Premises {
     void incrementSpacesAvailable();
     void decrementSpacesAvailable() throws IsFull;
     int getSpacesAvailable();
-
-    //todo decide if keep / alter
-    //void update();
-
 }
